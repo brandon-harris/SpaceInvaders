@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -19,6 +20,9 @@ public class Screen extends JPanel implements KeyListener {
 	public static ImageIcon enemyType3Frame2 = new ImageIcon("Enemy3 (frame2).png");
 	public static ImageIcon laserCanon = new ImageIcon("LaserCanon.png");
 	public static ImageIcon bunker = new ImageIcon("Bunker.png");
+	
+	//private ArrayList<ScreenObject> screenObjects;
+	private javax.swing.Timer timer;
 	
 	
 	public Screen() {
