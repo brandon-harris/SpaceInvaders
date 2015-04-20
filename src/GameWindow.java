@@ -7,7 +7,7 @@ public class GameWindow extends JFrame {
 	 * The window contains the game Screen.
 	 */
 	public GameWindow() {
-		setTitle("Space Invaders");
+		setTitle("Space Invaders JAVA");
 		Screen screen = new Screen();
 		add(screen);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
