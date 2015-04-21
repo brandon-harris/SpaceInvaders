@@ -14,15 +14,13 @@ public class Screen extends JPanel implements KeyListener {
 	public static int screenWidth = 1024;
 	public static int screenHeight = 768;
 	public static Score testScore = new Score(new Point(500,10), new Rectangle(10, 10, 10, 10), 99);
-	public static ImageIcon redSaucer = new ImageIcon("Red Saucer.png");
-	public static MovingObject testMovingObject = new MovingObject(new Point(200, 200), new Rectangle(10, 10, 30, 30), redSaucer.getImage());
 	public static ImageIcon enemyType1Frame1 = new ImageIcon("Enemy1 (frame1).png");
 	public static ImageIcon enemyType1Frame2 = new ImageIcon("Enemy1 (frame2).png");
 	public static ImageIcon enemyType2Frame1 = new ImageIcon("Enemy2 (frame1).png");
 	public static ImageIcon enemyType2Frame2 = new ImageIcon("Enemy2 (frame2).png");
 	public static ImageIcon enemyType3Frame1 = new ImageIcon("Enemy3 (frame1).png");
 	public static ImageIcon enemyType3Frame2 = new ImageIcon("Enemy3 (frame2).png");
-	
+	public static ImageIcon redSaucer = new ImageIcon("Red Saucer.png");
 	public static ImageIcon laserCanon = new ImageIcon("LaserCanon.png");
 	public static ImageIcon bunker = new ImageIcon("Bunker.png");
 	
@@ -38,6 +36,10 @@ public class Screen extends JPanel implements KeyListener {
 		System.out.println(testScore.getScore());
 		testScore.setScore(44);
 		System.out.println(testScore.getScore());
+		for(int x = 10; x < 400; x += 50){
+			MovingObject testMovingObject = new MovingObject(new Point(x, 200), new Rectangle(x, 10, 30, 30), enemyType1Frame2.getImage());
+			screenObjects.add(testMovingObject);
+		}
 		
 	}
 	
@@ -62,6 +64,8 @@ public class Screen extends JPanel implements KeyListener {
 		screenHeight = this.getHeight();
 		super.paintComponent(g);
 		testScore.draw(g);
-		testMovingObject.draw(g);
+		for (ScreenObject obj : screenObjects){
+			obj.draw(g);
+		}
 	}
 }
