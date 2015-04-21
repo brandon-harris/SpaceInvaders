@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 public class Screen extends JPanel implements KeyListener {
 	public static int screenWidth = 1024;
 	public static int screenHeight = 768;
-	public static Score testScore = new Score(new Point(500,10), new Rectangle(10, 10, 10, 10), 99);
+	public static Score testScore = new Score(new Point(800,15), new Rectangle(10, 10, 10, 10), 99);
 	public static ImageIcon enemyType1Frame1 = new ImageIcon("Enemy1 (frame1).png");
 	public static ImageIcon enemyType1Frame2 = new ImageIcon("Enemy1 (frame2).png");
 	public static ImageIcon enemyType2Frame1 = new ImageIcon("Enemy2 (frame1).png");
@@ -32,12 +32,12 @@ public class Screen extends JPanel implements KeyListener {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setBackground(Color.black);
 		screenObjects = new ArrayList<ScreenObject>();
-		System.out.println(testScore.getClass());
-		System.out.println(testScore.getScore());
-		testScore.setScore(44);
-		System.out.println(testScore.getScore());
+		//System.out.println(testScore.getClass());
+		//System.out.println(testScore.getScore());
+		//testScore.setScore(44);
+		//System.out.println(testScore.getScore());
 		for(int x = 10; x < 400; x += 50){
-			MovingObject testMovingObject = new MovingObject(new Point(x, 200), new Rectangle(x, 10, 30, 30), enemyType1Frame2.getImage());
+			MovingObject testMovingObject = new MovingObject(new Point(x, 100), new Rectangle(x, 10, 30, 30), enemyType1Frame2.getImage());
 			screenObjects.add(testMovingObject);
 		}
 		
