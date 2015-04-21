@@ -1,9 +1,11 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
+import java.awt.Point;
+import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -11,14 +13,16 @@ import javax.swing.JPanel;
 public class Screen extends JPanel implements KeyListener {
 	public static int screenWidth = 600;
 	public static int screenHeight = 500;
-	
+	public static Score testScore = new Score(new Point(10,10), new Rectangle(10, 10, 10, 10), 99);
+	public static ImageIcon redSaucer = new ImageIcon("Red Saucer.png");
+	public static MovingObject testMovingObject = new MovingObject(new Point(10, 10), new Rectangle(10, 10, 30, 30), redSaucer.getImage());
 	public static ImageIcon enemyType1Frame1 = new ImageIcon("Enemy1 (frame1).png");
 	public static ImageIcon enemyType1Frame2 = new ImageIcon("Enemy1 (frame2).png");
 	public static ImageIcon enemyType2Frame1 = new ImageIcon("Enemy2 (frame1).png");
 	public static ImageIcon enemyType2Frame2 = new ImageIcon("Enemy2 (frame2).png");
 	public static ImageIcon enemyType3Frame1 = new ImageIcon("Enemy3 (frame1).png");
 	public static ImageIcon enemyType3Frame2 = new ImageIcon("Enemy3 (frame2).png");
-	public static ImageIcon redSaucer = new ImageIcon("Red Saucer.png");
+	
 	public static ImageIcon laserCanon = new ImageIcon("LaserCanon.png");
 	public static ImageIcon bunker = new ImageIcon("Bunker.png");
 	
@@ -30,6 +34,11 @@ public class Screen extends JPanel implements KeyListener {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setBackground(Color.black);
 		screenObjects = new ArrayList<ScreenObject>();
+		System.out.println(testScore.getClass());
+		System.out.println(testScore.getScore());
+		testScore.setScore(44);
+		System.out.println(testScore.getScore());
+		
 	}
 	
 	@Override
@@ -46,5 +55,13 @@ public class Screen extends JPanel implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void paintComponent(Graphics g){
+		screenWidth = this.getWidth();
+		screenHeight = this.getHeight();
+		super.paintComponent(g);
+		testScore.draw(g);
+		testMovingObject.draw(g);
 	}
 }
