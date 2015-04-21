@@ -2,11 +2,10 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-/**
- * 
- */
+
 
 /**
+ * Screen objects have a location and size.
  * @author guinnc
  *
  */
@@ -16,8 +15,8 @@ public abstract class ScreenObject {
 	
 	/**
 	 * Create the screen object with a particular location and size.
-	 * @param location
-	 * @param size
+	 * @param location Starting location.
+	 * @param size Starting size.
 	 */
 	public ScreenObject(Point location, Rectangle size) {
 		super();
@@ -26,6 +25,7 @@ public abstract class ScreenObject {
 	}
 
 	/**
+	 * Retrieve the location.
 	 * @return the location
 	 */
 	public Point getLocation() {
@@ -33,6 +33,7 @@ public abstract class ScreenObject {
 	}
 
 	/**
+	 * Change the location.
 	 * @param location the location to set
 	 */
 	public void setLocation(Point location) {
@@ -40,6 +41,8 @@ public abstract class ScreenObject {
 	}
 
 	/**
+	 * 
+	 * Retrieve the size.
 	 * @return the size
 	 */
 	public Rectangle getSize() {
@@ -47,13 +50,18 @@ public abstract class ScreenObject {
 	}
 
 	/**
+	 * Change the size.
 	 * @param size the size to set
 	 */
 	public void setSize(Rectangle size) {
 		this.size = size;
 	}
 	
-	// should this be abstract
+	/**
+	 * All subclasses must have code to describe how
+	 * the object should be drawn.
+	 * @param g The graphics object.
+	 */
 	abstract public void draw(Graphics g);
 		
 }

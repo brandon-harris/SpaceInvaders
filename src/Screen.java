@@ -18,16 +18,18 @@ public class Screen extends JPanel implements KeyListener {
 	public static ImageIcon enemyType2Frame2 = new ImageIcon("Enemy2 (frame2).png");
 	public static ImageIcon enemyType3Frame1 = new ImageIcon("Enemy3 (frame1).png");
 	public static ImageIcon enemyType3Frame2 = new ImageIcon("Enemy3 (frame2).png");
+	public static ImageIcon redSaucer = new ImageIcon("Red Saucer.png");
 	public static ImageIcon laserCanon = new ImageIcon("LaserCanon.png");
 	public static ImageIcon bunker = new ImageIcon("Bunker.png");
 	
-	//private ArrayList<ScreenObject> screenObjects;
+	private ArrayList<ScreenObject> screenObjects;
 	private javax.swing.Timer timer;
 	
 	
 	public Screen() {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setBackground(Color.black);
+		screenObjects = new ArrayList<ScreenObject>();
 	}
 	
 	@Override

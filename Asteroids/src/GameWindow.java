@@ -1,10 +1,9 @@
 import javax.swing.JFrame;
 
-/**
- * 
- */
 
 /**
+ * The main window of the application.  Creates a window with 
+ * a panel that contains the game.  
  * @author guinnc
  *
  */
