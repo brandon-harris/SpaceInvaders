@@ -11,11 +11,11 @@ import javax.swing.JPanel;
 
 
 public class Screen extends JPanel implements KeyListener {
-	public static int screenWidth = 600;
-	public static int screenHeight = 500;
-	public static Score testScore = new Score(new Point(10,10), new Rectangle(10, 10, 10, 10), 99);
+	public static int screenWidth = 1024;
+	public static int screenHeight = 768;
+	public static Score testScore = new Score(new Point(500,10), new Rectangle(10, 10, 10, 10), 99);
 	public static ImageIcon redSaucer = new ImageIcon("Red Saucer.png");
-	public static MovingObject testMovingObject = new MovingObject(new Point(10, 10), new Rectangle(10, 10, 30, 30), redSaucer.getImage());
+	public static MovingObject testMovingObject = new MovingObject(new Point(200, 200), new Rectangle(10, 10, 30, 30), redSaucer.getImage());
 	public static ImageIcon enemyType1Frame1 = new ImageIcon("Enemy1 (frame1).png");
 	public static ImageIcon enemyType1Frame2 = new ImageIcon("Enemy1 (frame2).png");
 	public static ImageIcon enemyType2Frame1 = new ImageIcon("Enemy2 (frame1).png");

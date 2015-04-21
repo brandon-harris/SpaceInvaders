@@ -18,7 +18,7 @@ public class Score extends ScreenObject {
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.WHITE);
-		g2.drawString("" +score, 10, 10);
+		g2.drawString("" +score, location.x, location.y);
 		
 	}
 	
