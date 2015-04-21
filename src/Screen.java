@@ -36,11 +36,20 @@ public class Screen extends JPanel implements KeyListener {
 		//System.out.println(testScore.getScore());
 		//testScore.setScore(44);
 		//System.out.println(testScore.getScore());
-		for(int x = 10; x < 400; x += 50){
-			MovingObject testMovingObject = new MovingObject(new Point(x, 100), new Rectangle(x, 10, 30, 30), enemyType1Frame2.getImage());
-			screenObjects.add(testMovingObject);
+		for(int x = 250; x < 800; x += 50){
+			MovingObject enemy1_frame1 = new MovingObject(new Point(x, 100), new Rectangle(x, 10, 30, 30), enemyType1Frame1.getImage());
+			screenObjects.add(enemy1_frame1);
+			MovingObject enemy2_frame1 = new MovingObject(new Point(x, 150), new Rectangle(x, 10, 30, 30), enemyType2Frame1.getImage());
+			screenObjects.add(enemy2_frame1);
+			MovingObject enemy2_frame1_line2 = new MovingObject(new Point(x, 200), new Rectangle(x, 10, 30, 30), enemyType2Frame1.getImage());
+			screenObjects.add(enemy2_frame1_line2);
+			MovingObject enemy3_frame1 = new MovingObject(new Point(x, 250), new Rectangle(x, 10, 30, 30), enemyType3Frame1.getImage());
+			screenObjects.add(enemy3_frame1);
+			MovingObject enemy3_frame1_line2 = new MovingObject(new Point(x, 300), new Rectangle(x, 10, 30, 30), enemyType3Frame1.getImage());
+			screenObjects.add(enemy3_frame1_line2);
 		}
-		
+		MovingObject laserCanonPic = new MovingObject(new Point(100, 650), new Rectangle(10, 10, 50, 30), laserCanon.getImage());
+		screenObjects.add(laserCanonPic);
 	}
 	
 	@Override
