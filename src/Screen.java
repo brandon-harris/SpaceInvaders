@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -34,7 +33,6 @@ public class Screen extends JPanel implements KeyListener {
 	public static ImageIcon redSaucer = new ImageIcon("Red Saucer.png");
 	public static ImageIcon laserCanon = new ImageIcon("LaserCanon.png");
 	public static ImageIcon bunker = new ImageIcon("Bunker.png");
-
 	private ArrayList<Alien> alienObjects;
 	private ArrayList<Bunker> bunkerObjects;
 
@@ -79,7 +77,7 @@ public class Screen extends JPanel implements KeyListener {
 		// screenObjects.add(laserCannonPic);
 		for (Alien obj : alienObjects) {
 			if (obj instanceof Alien) {
-				obj.setVector(new MyVector(6, 0));
+				obj.setVector(new MyVector(10, 0));
 			}
 		}
 
@@ -96,41 +94,24 @@ public class Screen extends JPanel implements KeyListener {
 	}
 
 	private class TimerListener implements ActionListener {
-
 		public void actionPerformed(ActionEvent arg0) {
 			for (Alien obj : alienObjects) {
-				if (obj.vector.getChangeX() == 6) {
-					obj.move(obj);
-				}
-				if (obj.location.x > 800
-						&& (obj.vector.getChangeX() == 6 || obj.vector
-								.getChangeX() == 10)) {
-					System.out.println("We hit the right");
+				if (obj.location.getX() > 800
+						&& (obj.vector.getChangeX() == 10)) {
 					for (Alien innerLoop : alienObjects) {
 						innerLoop.setVector(new MyVector(0, 10));
 						innerLoop.move(innerLoop);
 						innerLoop.setVector(new MyVector(-10, 0));
-						System.out.println("GO DOWN 1");
 						innerLoop.move(innerLoop);
 					}
-					break;
 				}
 				if (obj.location.getX() < 200 && obj.vector.getChangeX() == -10) {
-					System.out.println("Hit left");
 					for (Alien innerLoop : alienObjects) {
 						innerLoop.setVector(new MyVector(0, 10));
-						innerLoop.move(innerLoop);
-						try {
-							TimeUnit.MILLISECONDS.sleep(500);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						innerLoop.move(innerLoop);	
 						innerLoop.setVector(new MyVector(10, 0));
 						innerLoop.move(innerLoop);
-						System.out.println("GO DOWN 2");
 					}
-					break;
 				}
 				obj.move(obj);
 			}
