@@ -32,7 +32,7 @@ public class Screen extends JPanel implements KeyListener {
 	private javax.swing.Timer timer;
 	
 	
-	public Screen(int points) {
+	public Screen() {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setBackground(Color.black);
 		screenObjects = new ArrayList<ScreenObject>();
@@ -41,6 +41,7 @@ public class Screen extends JPanel implements KeyListener {
 		//testScore.setScore(44);
 		//System.out.println(testScore.getScore());
 		for(int x = 250; x < 800; x += 50){
+			int points = 10;
 			Alien enemy1_frame1 = new Alien(new Point(x, 100), new Rectangle(x, 10, 30, 30),points, enemyType1Frame1.getImage());
 			screenObjects.add(enemy1_frame1);
 			Alien enemy2_frame1 = new Alien(new Point(x, 150), new Rectangle(x, 10, 30, 30),points, enemyType2Frame1.getImage());
