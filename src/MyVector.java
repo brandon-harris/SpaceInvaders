@@ -20,8 +20,8 @@ public class MyVector {
 	/**
 	 * @param changeX the changeX to set
 	 */
-	public void setChangeX(double changeX) {
-		this.changeX = changeX;
+	public void setChangeX(double cX) {
+		changeX = cX;
 	}
 	/**
 	 * @return the changeY
@@ -32,8 +32,8 @@ public class MyVector {
 	/**
 	 * @param changeY the changeY to set
 	 */
-	public void setChangeY(double changeY) {
-		this.changeY = changeY;
+	public void setChangeY(double cY) {
+		changeY = cY;
 	}
 	
 	
