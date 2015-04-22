@@ -1,13 +1,17 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 
 public class Screen extends JPanel implements KeyListener {
@@ -50,6 +54,31 @@ public class Screen extends JPanel implements KeyListener {
 		}
 		MovingObject laserCanonPic = new MovingObject(new Point(100, 650), new Rectangle(10, 10, 50, 30), laserCanon.getImage());
 		screenObjects.add(laserCanonPic);
+		
+		Timer timer = new Timer(30, new TimerListener());
+		timer.start();
+	}
+	
+	public Timer getTimer() {
+		return timer;
+	}
+	public void setTimer(javax.swing.Timer timer) {
+		this.timer = timer;
+	}
+	
+	private class TimerListener implements ActionListener {
+		
+		public void ActionPerformed(ActionEvent arg0) {
+			for (MovingObject obj : screenObjects) {
+				
+			}
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 	
 	@Override
