@@ -32,7 +32,7 @@ public class Screen extends JPanel implements KeyListener {
 	private javax.swing.Timer timer;
 	
 	
-	public Screen() {
+	public Screen(int points) {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setBackground(Color.black);
 		screenObjects = new ArrayList<ScreenObject>();
@@ -41,19 +41,30 @@ public class Screen extends JPanel implements KeyListener {
 		//testScore.setScore(44);
 		//System.out.println(testScore.getScore());
 		for(int x = 250; x < 800; x += 50){
-			MovingObject enemy1_frame1 = new MovingObject(new Point(x, 100), new Rectangle(x, 10, 30, 30), enemyType1Frame1.getImage());
+			Alien enemy1_frame1 = new Alien(new Point(x, 100), new Rectangle(x, 10, 30, 30),points, enemyType1Frame1.getImage());
 			screenObjects.add(enemy1_frame1);
-			MovingObject enemy2_frame1 = new MovingObject(new Point(x, 150), new Rectangle(x, 10, 30, 30), enemyType2Frame1.getImage());
+			Alien enemy2_frame1 = new Alien(new Point(x, 150), new Rectangle(x, 10, 30, 30),points, enemyType2Frame1.getImage());
 			screenObjects.add(enemy2_frame1);
-			MovingObject enemy2_frame1_line2 = new MovingObject(new Point(x, 200), new Rectangle(x, 10, 30, 30), enemyType2Frame1.getImage());
+			Alien enemy2_frame1_line2 = new Alien(new Point(x, 200), new Rectangle(x, 10, 30, 30),points, enemyType2Frame1.getImage());
 			screenObjects.add(enemy2_frame1_line2);
-			MovingObject enemy3_frame1 = new MovingObject(new Point(x, 250), new Rectangle(x, 10, 30, 30), enemyType3Frame1.getImage());
+			Alien enemy3_frame1 = new Alien(new Point(x, 250), new Rectangle(x, 10, 30, 30),points, enemyType3Frame1.getImage());
 			screenObjects.add(enemy3_frame1);
-			MovingObject enemy3_frame1_line2 = new MovingObject(new Point(x, 300), new Rectangle(x, 10, 30, 30), enemyType3Frame1.getImage());
+			Alien enemy3_frame1_line2 = new Alien(new Point(x, 300), new Rectangle(x, 10, 30, 30),points, enemyType3Frame1.getImage());
 			screenObjects.add(enemy3_frame1_line2);
 		}
-		MovingObject laserCanonPic = new MovingObject(new Point(100, 650), new Rectangle(10, 10, 50, 30), laserCanon.getImage());
-		screenObjects.add(laserCanonPic);
+		LaserCannon laserCannonPic = new LaserCannon(new Point(100, 650), new Rectangle(10, 10, 50, 30), laserCanon.getImage());
+		screenObjects.add(laserCannonPic);
+		for (ScreenObject obj : screenObjects){
+			if ( obj instanceof Alien ){
+				Alien.setVector(new MyVector(10, 10));
+	
+				
+			}
+			else{
+				LaserCannon.setVector(new MyVector(0,0));
+			}
+		}
+		
 		
 		Timer timer = new Timer(30, new TimerListener());
 		timer.start();
@@ -69,7 +80,11 @@ public class Screen extends JPanel implements KeyListener {
 	private class TimerListener implements ActionListener {
 		
 		public void ActionPerformed(ActionEvent arg0) {
-			for (MovingObject obj : screenObjects) {
+			for (ScreenObject obj : screenObjects) {
+				if (obj instanceof Alien) {
+					Alien alien = (Alien) obj;
+					alien.move();
+				}
 				
 			}
 		}

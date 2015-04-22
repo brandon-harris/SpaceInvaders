@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 
 
 public class MovingObject extends ScreenObject {
+	MyVector vector;
 	public MovingObject(Point l, Rectangle s) {
 		super(l, s);
 		// TODO Auto-generated constructor stub
@@ -23,6 +24,7 @@ public class MovingObject extends ScreenObject {
 
 	}
 	
+	
 	public void move(){
 		// TODO
 	}
@@ -30,7 +32,17 @@ public class MovingObject extends ScreenObject {
 	public void collide(MovingObject o){
 		// TODO
 	}
-	
+	public MyVector getVector() {
+		return vector;
+	}
+
+	/**
+	 * @param vector the vector to set
+	 */
+	public static void setVector(MyVector vector) {
+		vector = vector;
+	}
+
 	public void destuct(ScreenObject sc){
 		// TODO
 	}
