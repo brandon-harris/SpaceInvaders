@@ -37,6 +37,7 @@ public class Screen extends JPanel implements KeyListener {
 	public static ImageIcon laserCanon = new ImageIcon("LaserCanon.png");
 	public static ImageIcon bunker = new ImageIcon("Bunker.png");
 	public static ImageIcon shotPic = new ImageIcon("Shot.png");
+	public static ImageIcon laserCannonShot = new ImageIcon("LaserCannonShot.png");
 	private ArrayList<Alien> alienObjects;
 	private ArrayList<Bunker> bunkerObjects;
 	private ArrayList<Shot> multipleShots;
@@ -46,6 +47,7 @@ public class Screen extends JPanel implements KeyListener {
 	private javax.swing.Timer enemyShotTimer;
 	private javax.swing.Timer mysterymovTimer;
 	private javax.swing.Timer startMystery;
+	private javax.swing.Timer enemyShotTimerPartTwo;
 	private LaserCannon laserCannon;
 	private Shot shot;
 	private static boolean shotSwitch = false;
@@ -66,7 +68,8 @@ public class Screen extends JPanel implements KeyListener {
 
 		// MAKE TIMERS HERE
 		timer = new Timer(500, new TimerListener());
-		enemyShotTimer = new Timer(5000, new EnemyShotTimerListener());
+		enemyShotTimer = new Timer(3000, new EnemyShotTimerListener());
+		enemyShotTimerPartTwo = new Timer (35, new EnemyShotTimerListenerPartTwo());
 		shotTimer = new Timer(25, new ShotTimerListener());
 
 		// KEEPS ALIEN BLOCK ON SCREEN
@@ -90,16 +93,6 @@ public class Screen extends JPanel implements KeyListener {
 					enemyType3Frame1.getImage());
 			alienObjects.add(enemy3_frame1_line2);
 		}
-
-		// TODO Handling choosing a random alien for shooting an object from.
-		/*
-		 * Random rand = new Random(); Alien shooterAlien = alienObjects
-		 * .get(rand.nextInt(alienObjects.size() - 1)); Point p =
-		 * shooterAlien.getLocation(); Rectangle r = shooterAlien.getSize();
-		 * System.out.println(p); shot = new Shot(new Point(p.x + r.width / 2 -
-		 * 5, p.y + 20), new Rectangle(p.x + r.width / 2 - 5, p.y + 20, 10, 15),
-		 * shotPic.getImage()); shot.setVector(new MyVector(0, 5));
-		 */
 
 		// CREATES 4 BUNKERS
 		for (int b = 1; b < 5; b++) {
@@ -180,20 +173,23 @@ public class Screen extends JPanel implements KeyListener {
 					new Rectangle(p.x + r.width / 2 - 5, p.y + 20, 10, 15),
 					shotPic.getImage());
 			enemyShots.add(shot);
-			shot.setVector(new MyVector(0, 5));
-			shot.move(shot);
-			repaint();
-			System.out.println("I made it here");
+			enemyShotTimerPartTwo.start();
+		} 
+	}
+	private class EnemyShotTimerListenerPartTwo implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			for (Shot shot : enemyShots) {
+				shot.setVector(new MyVector(0, 5));
+				shot.move(shot);
+			}
 		}
 	}
-
-	// TODO
 
 	// LASER CANNON SHOT LISTENER
 	private class ShotTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			for (Shot shot : multipleShots) {
-				shot.setVector(new MyVector(0, -5));
+				shot.setVector(new MyVector(0, -7));
 				shot.move(shot);
 				repaint();
 			}
@@ -286,8 +282,8 @@ public class Screen extends JPanel implements KeyListener {
 			Point p = laserCannon.getLocation();
 			Rectangle r = laserCannon.getSize();
 			// System.out.println(p + " " + r); test print
-			shot = new Shot(new Point(p.x + r.width / 2 - 5, p.y - 20),
-					new Rectangle(500, 650, 10, 15), shotPic.getImage());
+			shot = new Shot(new Point(p.x + r.width / 2 - 3, p.y - 20),
+					new Rectangle(500, 650, 5, 15), laserCannonShot.getImage());
 			shotSwitch = true;
 			multipleShots.add(shot);
 			shotTimer.start();
