@@ -16,8 +16,10 @@ import javax.swing.Timer;
 public class Screen extends JPanel implements KeyListener {
 	public static int screenWidth = 1024;
 	public static int screenHeight = 768;
-	public static Score testScore = new Score(new Point(800, 15),
-			new Rectangle(10, 10, 10, 10), 99);
+	public static Score displayScore = new Score(new Point(750, 25),
+			new Rectangle(10, 10, 10, 10), 0);
+	public static Lives displayLives = new Lives(new Point(175, 25),
+			new Rectangle(10, 10, 10, 10), 2);
 	public static ImageIcon enemyType1Frame1 = new ImageIcon(
 			"Enemy1 (frame1).png");
 	public static ImageIcon enemyType1Frame2 = new ImageIcon(
@@ -123,7 +125,8 @@ public class Screen extends JPanel implements KeyListener {
 		screenWidth = this.getWidth();
 		screenHeight = this.getHeight();
 		super.paintComponent(g);
-		testScore.draw(g);
+		displayScore.draw(g);
+		displayLives.draw(g);
 		for (ScreenObject obj : alienObjects) {
 			obj.draw(g);
 		}
@@ -146,17 +149,15 @@ public class Screen extends JPanel implements KeyListener {
 		case KeyEvent.VK_LEFT:
 			break;
 		case KeyEvent.VK_RIGHT:
-			System.out.println("VK RIGHT 1");
+			System.out.println("VK RIGHT START");
 			System.out.println(laserCannonPic.getClass());
-			Point location = laserCannonPic.getLocation(); //doesn't work for some reason
-			int endX = location.x + 5;
-			int newEndX = location.x + (endX - location.x);
-			int changeX = (newEndX - location.x);
-			System.out.println("VK RIGHT 1.5");
-			laserCannonPic.setVector(new MyVector(changeX, 0));
-			laserCannonPic.move(laserCannonPic);
+			Point location = laserCannonPic.getLocation();
+			System.out.println(location);
+			int newX = location.x + 5;
+			System.out.println(newX);
+			laserCannonPic.setVector(new MyVector(newX, 0));
 			repaint();
-			System.out.println("VK RIGHT 2");
+			System.out.println("VK RIGHT END");
 			break;
 		}
 	}

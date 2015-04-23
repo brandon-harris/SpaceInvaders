@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -17,8 +18,9 @@ public class Score extends ScreenObject {
 	@Override
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
+		g2.setFont(new Font("OCR A Std", Font.PLAIN, 20)); 
 		g2.setColor(Color.WHITE);
-		g2.drawString("" +score, location.x, location.y);
+		g2.drawString("Score: " +score, location.x, location.y);
 		
 	}
 	
