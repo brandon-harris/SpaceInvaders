@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -35,20 +36,40 @@ public class Screen extends JPanel implements KeyListener {
 	public static ImageIcon redSaucer = new ImageIcon("Red Saucer.png");
 	public static ImageIcon laserCanon = new ImageIcon("LaserCanon.png");
 	public static ImageIcon bunker = new ImageIcon("Bunker.png");
+	public static ImageIcon shotPic = new ImageIcon("Shot.png");
 	private ArrayList<Alien> alienObjects;
 	private ArrayList<Bunker> bunkerObjects;
+	private ArrayList<Shot> multipleShots;
+	private ArrayList<Shot> enemyShots;
 	private javax.swing.Timer timer;
-	private LaserCannon laserCannonPic;
+	private javax.swing.Timer shotTimer;
+	private javax.swing.Timer enemyShotTimer;
+	private javax.swing.Timer mysterymovTimer;
+	private javax.swing.Timer startMystery;
+	private LaserCannon laserCannon;
 	private Shot shot;
+	private static boolean shotSwitch = false;
+	private static boolean enemyShotSwitch = false;
 	private MysteryShip mysteryShipPic;
-		
+	private Random generator;
+	private int turnaround;
 
 	public Screen() {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setBackground(Color.black);
+
+		// MAKES ARRAY LISTS HERE
 		alienObjects = new ArrayList<Alien>();
 		bunkerObjects = new ArrayList<Bunker>();
+		multipleShots = new ArrayList<Shot>();
+		enemyShots = new ArrayList<Shot>();
 
+		// MAKE TIMERS HERE
+		timer = new Timer(500, new TimerListener());
+		enemyShotTimer = new Timer(5000, new EnemyShotTimerListener());
+		shotTimer = new Timer(25, new ShotTimerListener());
+
+		// KEEPS ALIEN BLOCK ON SCREEN
 		for (int x = 250; x < 800; x += 50) {
 			int points = 10;
 			Alien enemy1_frame1 = new Alien(new Point(x, 100), new Rectangle(x,
@@ -69,6 +90,18 @@ public class Screen extends JPanel implements KeyListener {
 					enemyType3Frame1.getImage());
 			alienObjects.add(enemy3_frame1_line2);
 		}
+
+		// TODO Handling choosing a random alien for shooting an object from.
+		/*
+		 * Random rand = new Random(); Alien shooterAlien = alienObjects
+		 * .get(rand.nextInt(alienObjects.size() - 1)); Point p =
+		 * shooterAlien.getLocation(); Rectangle r = shooterAlien.getSize();
+		 * System.out.println(p); shot = new Shot(new Point(p.x + r.width / 2 -
+		 * 5, p.y + 20), new Rectangle(p.x + r.width / 2 - 5, p.y + 20, 10, 15),
+		 * shotPic.getImage()); shot.setVector(new MyVector(0, 5));
+		 */
+
+		// CREATES 4 BUNKERS
 		for (int b = 1; b < 5; b++) {
 			Bunker bunker1 = new Bunker(5, new Point(b * 200, 550),
 					new Rectangle(b * 50, 50, Bunker.getBunkerDimensionWidth(),
@@ -77,30 +110,97 @@ public class Screen extends JPanel implements KeyListener {
 			bunkerObjects.add(bunker1);
 
 		}
-		 
+		// INITIAL MOVEMENT?
 		for (Alien obj : alienObjects) {
 			if (obj instanceof Alien) {
 				obj.setVector(new MyVector(10, 0));
 			}
 		}
-		
-		laserCannonPic = new LaserCannon(new Point(500, 650), new
-				 Rectangle(10, 10, 50, 30), laserCanon.getImage());
 
-		Timer timer = new Timer(500, new TimerListener());
+		// LASER CANNON CREATION
+		laserCannon = new LaserCannon(new Point(500, 650), new Rectangle(10,
+				10, 50, 30), laserCanon.getImage());
+		// MYSTERY SHIP
+		int points = 100;
+		mysteryShipPic = new MysteryShip(new Point(1025, 50), new Rectangle(10,
+				10, 50, 30), points, redSaucer.getImage());
+
+		// START TIMERS HERE AND KEY LISTENER
 		timer.start();
+		enemyShotTimer.start();
 		
+		// MYSTER SHIP RANDOM GENERATION
+		generator = new Random();
+		int randRange = 1 + generator.nextInt(15000);
+		startMystery = new Timer(randRange, new startMysListener());
+		startMystery.start();
+
 		addKeyListener(this);
 	}
-
-	public Timer getTimer() {
-		return timer;
+	// MYSTERY SHIP TIMER (GETS GOING LEFT)
+	private class startMysListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			Timer mysterymovTimer = new Timer(100, new MysterymovListener());
+			mysteryShipPic.setVector(new MyVector(-10, 0));
+			turnaround = generator.nextInt(2500);
+			turnaround = 0 - turnaround;
+			mysterymovTimer.start();
+			startMystery.stop();
+		}
+	}
+	// MYSTER SHIP TIMER (BACK AND FORTH)
+	private class MysterymovListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			if (mysteryShipPic.location.getX() <= turnaround) {
+				mysteryShipPic.setVector(new MyVector(10, 0));
+			}
+			mysteryShipPic.move(mysteryShipPic);
+			repaint();
+			int randRange = 1024 + generator.nextInt(4000);
+			if (mysteryShipPic.location.getX() > randRange) {
+				mysteryShipPic.setVector(new MyVector(-10, 0));
+			}
+			mysteryShipPic.move(mysteryShipPic);
+			repaint();
+		}
 	}
 
-	public void setTimer(Timer timer) {
-		this.timer = timer;
+	// TODO RANDOM ALIEN LISTENER (always makes it through but does not show up
+	// on screen)
+	private class EnemyShotTimerListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			enemyShotSwitch = true;
+			Random rand = new Random();
+			Alien shooterAlien = alienObjects.get(rand.nextInt(alienObjects
+					.size() - 1));
+			Point p = shooterAlien.getLocation();
+			Rectangle r = shooterAlien.getSize();
+			System.out.println("shot at location    " + p);
+			shot = new Shot(new Point(p.x + r.width / 2 - 5, p.y + 20),
+					new Rectangle(p.x + r.width / 2 - 5, p.y + 20, 10, 15),
+					shotPic.getImage());
+			enemyShots.add(shot);
+			shot.setVector(new MyVector(0, 5));
+			shot.move(shot);
+			repaint();
+			System.out.println("I made it here");
+		}
 	}
 
+	// TODO
+
+	// LASER CANNON SHOT LISTENER
+	private class ShotTimerListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			for (Shot shot : multipleShots) {
+				shot.setVector(new MyVector(0, -5));
+				shot.move(shot);
+				repaint();
+			}
+		}
+	}
+
+	// MOVES ALIENS/CONTROL DIRECTION
 	private class TimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			boolean flag = false;
@@ -110,25 +210,26 @@ public class Screen extends JPanel implements KeyListener {
 					for (Alien innerLoop : alienObjects) {
 						innerLoop.setVector(new MyVector(0, 10));
 					}
-					for (Alien innerLoop : alienObjects){
-						
-					innerLoop.move(innerLoop);
-					}
-					for (Alien innerLoop : alienObjects){
-						
-						innerLoop.setVector(new MyVector(-10, 0));
-					}
-					for (Alien innerLoop : alienObjects){
+					for (Alien innerLoop : alienObjects) {
+
 						innerLoop.move(innerLoop);
 					}
-				}}
-			for (Alien obj : alienObjects){
-				
+					for (Alien innerLoop : alienObjects) {
+
+						innerLoop.setVector(new MyVector(-10, 0));
+					}
+					for (Alien innerLoop : alienObjects) {
+						innerLoop.move(innerLoop);
+					}
+				}
+			}
+			for (Alien obj : alienObjects) {
+
 				if (obj.location.getX() < 200) {
-					
+
 					for (Alien innerLoop : alienObjects) {
 						innerLoop.setVector(new MyVector(0, 10));
-						innerLoop.move(innerLoop);	
+						innerLoop.move(innerLoop);
 						innerLoop.setVector(new MyVector(10, 0));
 						innerLoop.move(innerLoop);
 					}
@@ -139,6 +240,7 @@ public class Screen extends JPanel implements KeyListener {
 		}
 	}
 
+	// DRAW SCORE, LIVES, LASER CANNON, MYSTERYSHIP, SHOTS
 	public void paintComponent(Graphics g) {
 		screenWidth = this.getWidth();
 		screenHeight = this.getHeight();
@@ -151,40 +253,57 @@ public class Screen extends JPanel implements KeyListener {
 		for (Bunker bunkerzzz : bunkerObjects) {
 			bunkerzzz.draw(g);
 		}
-		laserCannonPic.draw(g);
-		int points = 100;
-		mysteryShipPic = new MysteryShip (new Point(900,50), new Rectangle (10,10,50,30), points, redSaucer.getImage());
+		laserCannon.draw(g);
 		mysteryShipPic.draw(g);
+		if (shotSwitch == true) {
+			for (Shot shot : multipleShots) {
+				shot.draw(g);
+			}
+			if (enemyShotSwitch == true) { // TODO shows up on screen but not
+											// moving yet
+				for (Shot shot : enemyShots) {
+					shot.draw(g);
+				}
+			}
+		}
 
 	}
+
+	// KEYBOARD INPUT CONTROL
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		switch (keyCode) {
 		case KeyEvent.VK_LEFT:
-			laserCannonPic.setVector(new MyVector(-5,0));
-			laserCannonPic.move(laserCannonPic);
+			laserCannon.setVector(new MyVector(-5, 0));
+			laserCannon.move(laserCannon);
 			break;
 		case KeyEvent.VK_RIGHT:
-			laserCannonPic.setVector(new MyVector(5,0));
-			laserCannonPic.move(laserCannonPic);
+			laserCannon.setVector(new MyVector(5, 0));
+			laserCannon.move(laserCannon);
 			break;
-		case KeyEvent.VK_SPACE: {
-			Point p = laserCannonPic.getLocation();
-			Rectangle r = laserCannonPic.getSize();
-			//Shot shot = new Shot(new Point(p.x, r.width/2, p.y + r.height / 2, new Rectangle(15, 2),shot);
-				
-			}
+		case KeyEvent.VK_SPACE: { // FIRE LASER CANNON
+			Point p = laserCannon.getLocation();
+			Rectangle r = laserCannon.getSize();
+			// System.out.println(p + " " + r); test print
+			shot = new Shot(new Point(p.x + r.width / 2 - 5, p.y - 20),
+					new Rectangle(500, 650, 10, 15), shotPic.getImage());
+			shotSwitch = true;
+			multipleShots.add(shot);
+			shotTimer.start();
+		}
 		}
 		repaint();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		//empty on purpose
+		// empty on purpose
 	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
-		//empty on purpose
+		// empty on purpose
 	}
+
 }
