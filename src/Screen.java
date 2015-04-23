@@ -83,8 +83,11 @@ public class Screen extends JPanel implements KeyListener {
 				obj.setVector(new MyVector(10, 0));
 			}
 		}
+		
+		laserCannonPic = new LaserCannon(new Point(500, 650), new
+				 Rectangle(10, 10, 50, 30), laserCanon.getImage());
 
-		Timer timer = new Timer(100, new TimerListener());
+		Timer timer = new Timer(500, new TimerListener());
 		timer.start();
 		
 		addKeyListener(this);
@@ -100,16 +103,29 @@ public class Screen extends JPanel implements KeyListener {
 
 	private class TimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
+			boolean flag = false;
 			for (Alien obj : alienObjects) {
 				if (obj.location.getX() > 800) {
+					flag = true;
 					for (Alien innerLoop : alienObjects) {
 						innerLoop.setVector(new MyVector(0, 10));
-						innerLoop.move(innerLoop);
+					}
+					for (Alien innerLoop : alienObjects){
+						
+					innerLoop.move(innerLoop);
+					}
+					for (Alien innerLoop : alienObjects){
+						
 						innerLoop.setVector(new MyVector(-10, 0));
+					}
+					for (Alien innerLoop : alienObjects){
 						innerLoop.move(innerLoop);
 					}
-				}
+				}}
+			for (Alien obj : alienObjects){
+				
 				if (obj.location.getX() < 200) {
+					
 					for (Alien innerLoop : alienObjects) {
 						innerLoop.setVector(new MyVector(0, 10));
 						innerLoop.move(innerLoop);	
@@ -135,29 +151,23 @@ public class Screen extends JPanel implements KeyListener {
 		for (Bunker bunkerzzz : bunkerObjects) {
 			bunkerzzz.draw(g);
 		}
+		laserCannonPic.draw(g);
 		int points = 100;
 		mysteryShipPic = new MysteryShip (new Point(900,50), new Rectangle (10,10,50,30), points, redSaucer.getImage());
 		mysteryShipPic.draw(g);
-		
-		laserCannonPic = new LaserCannon(new Point(500, 650), new
-				 Rectangle(10, 10, 50, 30), laserCanon.getImage());
-		laserCannonPic.draw(g);
+
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		switch (keyCode) {
 		case KeyEvent.VK_LEFT:
+			laserCannonPic.setVector(new MyVector(-5,0));
+			laserCannonPic.move(laserCannonPic);
 			break;
 		case KeyEvent.VK_RIGHT:
-			System.out.println("VK RIGHT START");
-			System.out.println(laserCannonPic.getClass());
-			Point location = laserCannonPic.getLocation();
-			System.out.println(location);
-			int newX = location.x + 20;
-			System.out.println(newX);
-			laserCannonPic.setVector(new MyVector(newX,0));
-			System.out.println("VK RIGHT END");
+			laserCannonPic.setVector(new MyVector(5,0));
+			laserCannonPic.move(laserCannonPic);
 			break;
 		case KeyEvent.VK_SPACE: {
 			Point p = laserCannonPic.getLocation();
