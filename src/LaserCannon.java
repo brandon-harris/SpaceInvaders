@@ -4,7 +4,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-
 public class LaserCannon extends ShootingObject {
 
 	public LaserCannon(Point l, Rectangle s) {
@@ -14,9 +13,10 @@ public class LaserCannon extends ShootingObject {
 	public LaserCannon(Point l, Rectangle s, Image i) {
 		super(l, s, i);
 	}
-	
+
 	public void draw(Graphics g) {
 		Graphics2D laserCanonDraw = (Graphics2D) g;
-		laserCanonDraw.drawImage(image, location.x, location.y, size.width, size.height, null);
-		}
+		laserCanonDraw.drawImage(image, location.x, location.y, size.width,
+				size.height, null);
+	}
 }

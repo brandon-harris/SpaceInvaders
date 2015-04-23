@@ -2,7 +2,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-
 public class Enemy extends ShootingObject {
 
 	public Enemy(Point l, Rectangle s) {

@@ -4,7 +4,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-
 public class Shot extends MovingObject {
 
 	public Shot(Point l, Rectangle s) {
@@ -14,9 +13,10 @@ public class Shot extends MovingObject {
 	public Shot(Point l, Rectangle s, Image i) {
 		super(l, s, i);
 	}
-	
+
 	public void draw(Graphics g) {
 		Graphics2D shotDraw = (Graphics2D) g;
-		shotDraw.drawImage(image, location.x, location.y, size.width, size.height, null);
+		shotDraw.drawImage(image, location.x, location.y, size.width,
+				size.height, null);
 	}
 }
