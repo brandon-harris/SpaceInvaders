@@ -21,4 +21,5 @@ public class LaserCannon extends ShootingObject {
 		Graphics2D laserCanonDraw = (Graphics2D) g;
 		laserCanonDraw.drawImage(image, location.x, location.y, size.width, size.height, null);
 		}
+	//add a setLocation method?
 }

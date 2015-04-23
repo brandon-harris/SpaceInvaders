@@ -39,6 +39,8 @@ public class Screen extends JPanel implements KeyListener {
 	private ArrayList<Bunker> bunkerObjects;
 	private javax.swing.Timer timer;
 	private LaserCannon laserCannonPic;
+	private Shot shot;
+	private MysteryShip mysteryShipPic;
 		
 
 	public Screen() {
@@ -85,7 +87,7 @@ public class Screen extends JPanel implements KeyListener {
 		Timer timer = new Timer(100, new TimerListener());
 		timer.start();
 		
-		this.addKeyListener(this);
+		addKeyListener(this);
 	}
 
 	public Timer getTimer() {
@@ -133,15 +135,14 @@ public class Screen extends JPanel implements KeyListener {
 		for (Bunker bunkerzzz : bunkerObjects) {
 			bunkerzzz.draw(g);
 		}
+		int points = 100;
+		mysteryShipPic = new MysteryShip (new Point(900,50), new Rectangle (10,10,50,30), points, redSaucer.getImage());
+		mysteryShipPic.draw(g);
+		
 		laserCannonPic = new LaserCannon(new Point(500, 650), new
 				 Rectangle(10, 10, 50, 30), laserCanon.getImage());
 		laserCannonPic.draw(g);
 	}
-	@Override
-	public void keyTyped(KeyEvent e) {
-		//empty on purpose
-	}
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
@@ -153,17 +154,27 @@ public class Screen extends JPanel implements KeyListener {
 			System.out.println(laserCannonPic.getClass());
 			Point location = laserCannonPic.getLocation();
 			System.out.println(location);
-			int newX = location.x + 5;
+			int newX = location.x + 20;
 			System.out.println(newX);
-			laserCannonPic.setVector(new MyVector(newX, 0));
-			repaint();
+			laserCannonPic.setVector(new MyVector(newX,0));
 			System.out.println("VK RIGHT END");
 			break;
+		case KeyEvent.VK_SPACE: {
+			Point p = laserCannonPic.getLocation();
+			Rectangle r = laserCannonPic.getSize();
+			//Shot shot = new Shot(new Point(p.x, r.width/2, p.y + r.height / 2, new Rectangle(15, 2),shot);
+				
+			}
 		}
+		repaint();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		//empty on purpose
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
 		//empty on purpose
 	}
 }
