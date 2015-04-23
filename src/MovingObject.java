@@ -27,8 +27,8 @@ public class MovingObject extends ScreenObject {
 	
 	
 	public void move(MovingObject object){
-		object.location.x += vector.getChangeX();
-		object.location.y += vector.getChangeY();
+		object.location.x += object.vector.getChangeX();
+		object.location.y += object.vector.getChangeY();
 	}
 	
 	public void collide(MovingObject o){

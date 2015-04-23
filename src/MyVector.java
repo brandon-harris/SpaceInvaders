@@ -1,42 +1,37 @@
-
 public class MyVector {
-	private double changeX;
-	private	double changeY;
+	private int changeX;
+	private	int changeY;
 	/**
 	 * @param changeX
 	 * @param changeY
 	 */
-	public MyVector(double changeX, double changeY) {
+	public MyVector(int cX, int cY) {
 	
-		this.changeX = changeX;
-		this.changeY = changeY;
+		changeX = cX;
+		changeY = cY;
 	}
 	/**
 	 * @return the changeX
 	 */
-	public double getChangeX() {
+	public int getChangeX() {
 		return changeX;
 	}
 	/**
 	 * @param changeX the changeX to set
 	 */
-	public void setChangeX(double cX) {
+	public void setChangeX(int cX) {
 		changeX = cX;
 	}
 	/**
 	 * @return the changeY
 	 */
-	public double getChangeY() {
+	public int getChangeY() {
 		return changeY;
 	}
 	/**
 	 * @param changeY the changeY to set
 	 */
-	public void setChangeY(double cY) {
+	public void setChangeY(int cY) {
 		changeY = cY;
 	}
-	
-	
 }
-
-

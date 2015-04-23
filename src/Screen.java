@@ -35,8 +35,9 @@ public class Screen extends JPanel implements KeyListener {
 	public static ImageIcon bunker = new ImageIcon("Bunker.png");
 	private ArrayList<Alien> alienObjects;
 	private ArrayList<Bunker> bunkerObjects;
-
 	private javax.swing.Timer timer;
+	private LaserCannon laserCannonPic;
+		
 
 	public Screen() {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -72,17 +73,17 @@ public class Screen extends JPanel implements KeyListener {
 			bunkerObjects.add(bunker1);
 
 		}
-		// LaserCannon laserCannonPic = new LaserCannon(new Point(100, 650), new
-		// Rectangle(10, 10, 50, 30), laserCanon.getImage());
-		// screenObjects.add(laserCannonPic);
+		 
 		for (Alien obj : alienObjects) {
 			if (obj instanceof Alien) {
 				obj.setVector(new MyVector(10, 0));
 			}
 		}
 
-		Timer timer = new Timer(500, new TimerListener());
+		Timer timer = new Timer(100, new TimerListener());
 		timer.start();
+		
+		this.addKeyListener(this);
 	}
 
 	public Timer getTimer() {
@@ -96,8 +97,7 @@ public class Screen extends JPanel implements KeyListener {
 	private class TimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			for (Alien obj : alienObjects) {
-				if (obj.location.getX() > 800
-						&& (obj.vector.getChangeX() == 10)) {
+				if (obj.location.getX() > 800) {
 					for (Alien innerLoop : alienObjects) {
 						innerLoop.setVector(new MyVector(0, 10));
 						innerLoop.move(innerLoop);
@@ -105,7 +105,7 @@ public class Screen extends JPanel implements KeyListener {
 						innerLoop.move(innerLoop);
 					}
 				}
-				if (obj.location.getX() < 200 && obj.vector.getChangeX() == -10) {
+				if (obj.location.getX() < 200) {
 					for (Alien innerLoop : alienObjects) {
 						innerLoop.setVector(new MyVector(0, 10));
 						innerLoop.move(innerLoop);	
@@ -119,24 +119,6 @@ public class Screen extends JPanel implements KeyListener {
 		}
 	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void paintComponent(Graphics g) {
 		screenWidth = this.getWidth();
 		screenHeight = this.getHeight();
@@ -148,5 +130,39 @@ public class Screen extends JPanel implements KeyListener {
 		for (Bunker bunkerzzz : bunkerObjects) {
 			bunkerzzz.draw(g);
 		}
+		laserCannonPic = new LaserCannon(new Point(500, 650), new
+				 Rectangle(10, 10, 50, 30), laserCanon.getImage());
+		laserCannonPic.draw(g);
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		//empty on purpose
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int keyCode = e.getKeyCode();
+		switch (keyCode) {
+		case KeyEvent.VK_LEFT:
+			break;
+		case KeyEvent.VK_RIGHT:
+			System.out.println("VK RIGHT 1");
+			System.out.println(laserCannonPic.getClass());
+			Point location = laserCannonPic.getLocation(); //doesn't work for some reason
+			int endX = location.x + 5;
+			int newEndX = location.x + (endX - location.x);
+			int changeX = (newEndX - location.x);
+			System.out.println("VK RIGHT 1.5");
+			laserCannonPic.setVector(new MyVector(changeX, 0));
+			laserCannonPic.move(laserCannonPic);
+			repaint();
+			System.out.println("VK RIGHT 2");
+			break;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		//empty on purpose
 	}
 }
