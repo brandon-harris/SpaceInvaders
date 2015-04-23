@@ -31,8 +31,14 @@ public class MovingObject extends ScreenObject {
 		object.location.y += object.vector.getChangeY();
 	}
 	
-	public void collide(MovingObject o){
-		// TODO
+	public boolean collide(MovingObject o){
+		Rectangle otherR = o.getSize();
+		otherR.setLocation(o.getLocation());
+		this.getSize().setLocation(this.getLocation());
+		if (otherR.intersects(this.getSize())) {
+			return true;
+		}
+		return false;
 	}
 	public MyVector getVector() {
 		return vector;

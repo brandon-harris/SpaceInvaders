@@ -44,8 +44,8 @@ public abstract class ScreenObject {
 	/**
 	 * @param size the size to set
 	 */
-	public void setSize(Rectangle size) {
-		this.size = size;
+	public void setSize(Rectangle s) {
+		size = s;
 	}
 	
 	abstract public void draw(Graphics g);

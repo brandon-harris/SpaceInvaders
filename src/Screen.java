@@ -42,10 +42,11 @@ public class Screen extends JPanel implements KeyListener {
 	private ArrayList<Bunker> bunkerObjects;
 	private ArrayList<Shot> multipleShots;
 	private ArrayList<Shot> enemyShots;
+	private ArrayList<ScreenObject> everythingList;
 	private javax.swing.Timer timer;
 	private javax.swing.Timer shotTimer;
 	private javax.swing.Timer enemyShotTimer;
-	private javax.swing.Timer mysterymovTimer;
+	//private javax.swing.Timer mysterymovTimer;
 	private javax.swing.Timer startMystery;
 	private javax.swing.Timer enemyShotTimerPartTwo;
 	private LaserCannon laserCannon;
@@ -61,10 +62,11 @@ public class Screen extends JPanel implements KeyListener {
 		setBackground(Color.black);
 
 		// MAKES ARRAY LISTS HERE
-		alienObjects = new ArrayList<Alien>();
+		alienObjects = new ArrayList<Alien>(); //aliens
 		bunkerObjects = new ArrayList<Bunker>();
-		multipleShots = new ArrayList<Shot>();
-		enemyShots = new ArrayList<Shot>();
+		multipleShots = new ArrayList<Shot>(); //laser cannon
+		enemyShots = new ArrayList<Shot>(); // alien shots
+		everythingList = new ArrayList<ScreenObject>(); //everything...
 
 		// MAKE TIMERS HERE
 		timer = new Timer(500, new TimerListener());
@@ -117,7 +119,12 @@ public class Screen extends JPanel implements KeyListener {
 		int points = 100;
 		mysteryShipPic = new MysteryShip(new Point(1025, 50), new Rectangle(10,
 				10, 50, 30), points, redSaucer.getImage());
-
+		
+		everythingList.addAll(alienObjects);
+		everythingList.addAll(bunkerObjects);
+		everythingList.add(mysteryShipPic);
+		everythingList.add(laserCannon);
+	
 		// START TIMERS HERE AND KEY LISTENER
 		timer.start();
 		enemyShotTimer.start();
@@ -168,11 +175,11 @@ public class Screen extends JPanel implements KeyListener {
 					.size() - 1));
 			Point p = shooterAlien.getLocation();
 			Rectangle r = shooterAlien.getSize();
-			System.out.println("shot at location    " + p);
 			shot = new Shot(new Point(p.x + r.width / 2 - 5, p.y + 20),
 					new Rectangle(p.x + r.width / 2 - 5, p.y + 20, 10, 15),
 					shotPic.getImage());
 			enemyShots.add(shot);
+			everythingList.add(shot);
 			enemyShotTimerPartTwo.start();
 		} 
 	}
@@ -235,6 +242,11 @@ public class Screen extends JPanel implements KeyListener {
 			repaint();
 		}
 	}
+	
+	
+	public void checkCollision() {
+		
+	}
 
 	// DRAW SCORE, LIVES, LASER CANNON, MYSTERYSHIP, SHOTS
 	public void paintComponent(Graphics g) {
@@ -286,6 +298,10 @@ public class Screen extends JPanel implements KeyListener {
 					new Rectangle(500, 650, 5, 15), laserCannonShot.getImage());
 			shotSwitch = true;
 			multipleShots.add(shot);
+			everythingList.add(shot);
+			for (ScreenObject ss: everythingList){
+				System.out.println(ss);
+			}
 			shotTimer.start();
 		}
 		}
