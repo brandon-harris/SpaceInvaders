@@ -6,15 +6,36 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+/**
+ * keeps count of the score has a score.
+ * 
+ * @author Kennon
+ *
+ */
 public class Score extends ScreenObject {
 	private int score;
 
+	/**
+	 * Creates a score at a certain location,size, and particular number for
+	 * score.
+	 * 
+	 * @param l
+	 *            is the location
+	 * @param s
+	 *            is the size
+	 * @param sc
+	 *            is the score
+	 */
 	public Score(Point l, Rectangle s, int sc) {
 		super(l, s);
 		score = sc;
 	}
 
 	@Override
+	/**
+	 * To draw a show, it is rotated by its orientation.
+	 * @param g The graphics object
+	 */
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setFont(new Font("OCR A Std", Font.PLAIN, 20));
@@ -23,12 +44,23 @@ public class Score extends ScreenObject {
 
 	}
 
+	/**
+	 * Sets the score.
+	 * 
+	 * @param s
+	 *            is the score to be set
+	 */
+
 	public void setScore(int s) {
 		score = s;
 	}
 
+	/**
+	 * Gets the score.
+	 * 
+	 * @return score
+	 */
 	public int getScore() {
 		return score;
 	}
-
 }

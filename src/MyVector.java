@@ -1,18 +1,27 @@
+/**
+ * Enables movement of objects, stores the changeX and the changeY.
+ * 
+ * @author Kennon
+ *
+ */
 public class MyVector {
 	private int changeX;
 	private int changeY;
 
 	/**
+	 * Creates a vector.
+	 * 
 	 * @param changeX
 	 * @param changeY
 	 */
 	public MyVector(int cX, int cY) {
-
 		changeX = cX;
 		changeY = cY;
 	}
 
 	/**
+	 * Get the ChangeX.
+	 * 
 	 * @return the changeX
 	 */
 	public int getChangeX() {
@@ -20,6 +29,8 @@ public class MyVector {
 	}
 
 	/**
+	 * Sets the changeX.
+	 * 
 	 * @param changeX
 	 *            the changeX to set
 	 */
@@ -28,6 +39,8 @@ public class MyVector {
 	}
 
 	/**
+	 * Gets the changeY.
+	 * 
 	 * @return the changeY
 	 */
 	public int getChangeY() {
@@ -35,6 +48,8 @@ public class MyVector {
 	}
 
 	/**
+	 * Sets the Change Y.
+	 * 
 	 * @param changeY
 	 *            the changeY to set
 	 */
