@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 public class Bunker extends ScreenObject {
-	private int hits;
+	private int hits = 0;
 	final private static int BUNKER_DIMENSION_WIDTH = 88;
 	final private static int BUNKER_DIMENSION_HEIGHT = 64;
 

@@ -30,7 +30,7 @@ public class MovingObject extends ScreenObject {
 		object.location.y += object.vector.getChangeY();
 	}
 
-	public boolean collide(MovingObject o) {
+	public boolean collide(ScreenObject o) {
 		Rectangle otherR = o.getSize();
 		otherR.setLocation(o.getLocation());
 		this.getSize().setLocation(this.getLocation());

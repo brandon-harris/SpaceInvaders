@@ -39,11 +39,14 @@ public class Screen extends JPanel implements KeyListener {
 	public static ImageIcon shotPic = new ImageIcon("Shot.png");
 	public static ImageIcon laserCannonShot = new ImageIcon(
 			"LaserCannonShot.png");
+	public static ImageIcon bunkerhit1 = new ImageIcon("bunkerhit1.png");
+	public static ImageIcon bunkerhit2 = new ImageIcon("bunkerhit2.png");
+	public static ImageIcon bunkerhit3 = new ImageIcon("bunkerhit3.png");
+	public static ImageIcon bunkerhit4 = new ImageIcon("bunkerhit4.png");
 	private ArrayList<Alien> alienObjects;
 	private ArrayList<Bunker> bunkerObjects;
 	private ArrayList<Shot> multipleShots;
 	private ArrayList<Shot> enemyShots;
-	private ArrayList<ScreenObject> everythingList;
 	private javax.swing.Timer timer;
 	private javax.swing.Timer shotTimer;
 	private javax.swing.Timer enemyShotTimer;
@@ -67,7 +70,6 @@ public class Screen extends JPanel implements KeyListener {
 		bunkerObjects = new ArrayList<Bunker>();
 		multipleShots = new ArrayList<Shot>(); // laser cannon
 		enemyShots = new ArrayList<Shot>(); // alien shots
-		everythingList = new ArrayList<ScreenObject>(); // everything...
 
 		// MAKE TIMERS HERE
 		timer = new Timer(500, new TimerListener());
@@ -100,7 +102,7 @@ public class Screen extends JPanel implements KeyListener {
 
 		// CREATES 4 BUNKERS
 		for (int b = 1; b < 5; b++) {
-			Bunker bunker1 = new Bunker(5, new Point(b * 200, 550),
+			Bunker bunker1 = new Bunker(0, new Point(b * 200, 550),
 					new Rectangle(b * 50, 50, Bunker.getBunkerDimensionWidth(),
 							Bunker.getBunkerDimensionHeight()),
 					bunker.getImage());
@@ -122,11 +124,6 @@ public class Screen extends JPanel implements KeyListener {
 		mysteryShipPic = new MysteryShip(new Point(1025, 50), new Rectangle(10,
 				10, 50, 30), points, redSaucer.getImage());
 
-		everythingList.addAll(alienObjects);
-		everythingList.addAll(bunkerObjects);
-		everythingList.add(mysteryShipPic);
-		everythingList.add(laserCannon);
-
 		// START TIMERS HERE AND KEY LISTENER
 		timer.start();
 		enemyShotTimer.start();
@@ -136,24 +133,93 @@ public class Screen extends JPanel implements KeyListener {
 		int randRange = 1 + generator.nextInt(15000);
 		startMystery = new Timer(randRange, new startMysListener());
 		startMystery.start();
-
+		shotTimer.start();
 		addKeyListener(this);
 	}
 
 	public void collideObjects() {
-		for (ScreenObject obj : everythingList) {
-			if (obj instanceof Alien) {
-				for (ScreenObject nestedLoop : everythingList) {
-					if (nestedLoop instanceof Shot) {
-						Shot shotObject = (Shot) nestedLoop;
-						if (shotObject.vector != null) {
-							if (shotObject.vector.getChangeY() == -7) {
-								if (shotObject.collide((MovingObject) obj) == true) {
-									alienObjects.remove(obj);
-								}
-							}
-						}
+		for (Shot shots : multipleShots) {
+			if (shots.collide(mysteryShipPic) == true) {
+				System.out.println("ok step one");
+				mysteryShipPic.setSize(new Rectangle(0, 0, 0, 0));
+				mysteryShipPic.setLocation(new Point(-300, -300));
+			}
+		}
+		for (Shot shotObj : multipleShots) {
+			for (Alien alienObj : alienObjects) {
+				if (shotObj.collide(alienObj) == true) {
+					alienObj.setSize(new Rectangle(-10, -10, 0, 0));
+					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					// alienObj.setLocation(new Point(-300, -300));
+					repaint();
+				}
+			}
+		}
+		for (Shot shotObj : enemyShots) { //check in screenobject.java  //ALIEN SHOT
+			for (Bunker bunkerObj : bunkerObjects) {
+				if (shotObj.collide(bunkerObj) == true) {
+					if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 0) {
+						shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+						bunkerObj.setImage(bunkerhit1.getImage());
+						repaint();
+						bunkerObj.setHits(bunkerObj.getHits() + 1);
 					}
+					if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 1) {
+						shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+						bunkerObj.setImage(bunkerhit2.getImage());
+						repaint();
+						bunkerObj.setHits(bunkerObj.getHits() + 1);
+					}
+					if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 2) {
+						shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+						bunkerObj.setImage(bunkerhit4.getImage());
+						repaint();
+						bunkerObj.setHits(bunkerObj.getHits() + 1);
+					}
+					if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 3) {
+						shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+						bunkerObj.setImage(bunkerhit3.getImage());
+						repaint();
+						bunkerObj.setHits(bunkerObj.getHits() + 1);
+					}
+					if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 4) {
+						bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
+						shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+						repaint();
+					}
+				}
+			}
+		}
+		for (Shot shotObj : multipleShots) { //check in screenobject.java   //PLAYER SHOT
+			for (Bunker bunkerObj : bunkerObjects) {
+				if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 0) {
+					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					bunkerObj.setImage(bunkerhit1.getImage());
+					repaint();
+					bunkerObj.setHits(bunkerObj.getHits() + 1);
+				}
+				if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 1) {
+					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					bunkerObj.setImage(bunkerhit2.getImage());
+					repaint();
+					bunkerObj.setHits(bunkerObj.getHits() + 1);
+				}
+				if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 2) {
+					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					bunkerObj.setImage(bunkerhit4.getImage());
+					repaint();
+					bunkerObj.setHits(bunkerObj.getHits() + 1);
+				}
+				if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 3) {
+					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					bunkerObj.setImage(bunkerhit3.getImage());
+					repaint();
+					bunkerObj.setHits(bunkerObj.getHits() + 1);
+				}
+				if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 4) {
+					bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
+					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					repaint();
 				}
 			}
 		}
@@ -178,12 +244,14 @@ public class Screen extends JPanel implements KeyListener {
 				mysteryShipPic.setVector(new MyVector(10, 0));
 			}
 			mysteryShipPic.move(mysteryShipPic);
+			collideObjects();
 			repaint();
 			int randRange = 1024 + generator.nextInt(4000);
 			if (mysteryShipPic.location.getX() > randRange) {
 				mysteryShipPic.setVector(new MyVector(-10, 0));
 			}
 			mysteryShipPic.move(mysteryShipPic);
+			collideObjects();
 			repaint();
 		}
 	}
@@ -203,7 +271,6 @@ public class Screen extends JPanel implements KeyListener {
 					new Rectangle(p.x + r.width / 2 - 5, p.y + 20, 10, 15),
 					shotPic.getImage());
 			enemyShots.add(shot);
-			everythingList.add(shot);
 			enemyShotTimerPartTwo.start();
 		}
 	}
@@ -213,7 +280,7 @@ public class Screen extends JPanel implements KeyListener {
 			for (Shot shot : enemyShots) {
 				shot.setVector(new MyVector(0, 5));
 				shot.move(shot);
-				collideObjects();
+				repaint();
 			}
 		}
 	}
@@ -221,15 +288,15 @@ public class Screen extends JPanel implements KeyListener {
 	// LASER CANNON SHOT LISTENER
 	private class ShotTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			collideObjects();
-				repaint();
-				for (int x = 0; x < multipleShots.size() - 1; x++) {
+			repaint();
+			for (int x = 0; x < multipleShots.size(); x++) {
 				multipleShots.get(x).setVector(new MyVector(0, -7));
 				multipleShots.get(x).move(multipleShots.get(x));
-				if (multipleShots.get(x).location.getY() < 10){
+				if (multipleShots.get(x).location.getY() < 10) {
 					multipleShots.remove(x);
+					repaint();
 				}
-				
+
 			}
 		}
 	}
@@ -254,8 +321,9 @@ public class Screen extends JPanel implements KeyListener {
 						innerLoop.setVector(new MyVector(-10, 0));
 					}
 					for (Alien innerLoop : alienObjects) {
-						innerLoop.move(innerLoop);
 						collideObjects();
+						innerLoop.move(innerLoop);
+
 					}
 				}
 			}
@@ -297,12 +365,13 @@ public class Screen extends JPanel implements KeyListener {
 		if (shotSwitch == true) {
 			for (Shot shot : multipleShots) {
 				shot.draw(g);
+				repaint();
 			}
-			if (enemyShotSwitch == true) { // TODO shows up on screen but not
-											// moving yet
-				for (Shot shot : enemyShots) {
-					shot.draw(g);
-				}
+		}
+		if (enemyShotSwitch == true) {
+			for (Shot shot : enemyShots) {
+				shot.draw(g);
+				repaint();
 			}
 		}
 
@@ -316,29 +385,26 @@ public class Screen extends JPanel implements KeyListener {
 		case KeyEvent.VK_LEFT:
 			laserCannon.setVector(new MyVector(-5, 0));
 			laserCannon.move(laserCannon);
-			collideObjects();
+
+			repaint();
 			break;
 		case KeyEvent.VK_RIGHT:
 			laserCannon.setVector(new MyVector(5, 0));
 			laserCannon.move(laserCannon);
-			collideObjects();
+
+			repaint();
 			break;
 		case KeyEvent.VK_SPACE: { // FIRE LASER CANNON
 			Point p = laserCannon.getLocation();
 			Rectangle r = laserCannon.getSize();
-			// System.out.println(p + " " + r); test print
 			shot = new Shot(new Point(p.x + r.width / 2 - 3, p.y - 20),
 					new Rectangle(500, 650, 5, 15), laserCannonShot.getImage());
 			shotSwitch = true;
-			multipleShots.add(shot);
-			everythingList.add(shot);
-			// for (ScreenObject ss : everythingList) {
-			// System.out.println(ss);
-			// }
 			shotTimer.start();
+			multipleShots.add(shot);
+			repaint();
 		}
 		}
-		repaint();
 	}
 
 	@Override

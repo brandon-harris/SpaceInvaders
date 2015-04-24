@@ -48,6 +48,20 @@ public abstract class ScreenObject {
 	public void setSize(Rectangle s) {
 		size = s;
 	}
+	
+	public boolean collide(MovingObject o) {
+		Rectangle otherR = o.getSize();
+		otherR.setLocation(o.getLocation());
+		this.getSize().setLocation(this.getLocation());
+		if (otherR.intersects(this.getSize())) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void setImage(Image i) {
+		image = i;
+	}
 
 	abstract public void draw(Graphics g);
 
