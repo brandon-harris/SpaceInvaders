@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.Point;
 import java.awt.Rectangle;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -60,11 +59,13 @@ public class Screen extends JPanel implements KeyListener {
 	private MysteryShip mysteryShipPic;
 	private Random generator;
 	private int turnaround;
+	private static ImageIcon explodingPlayerShip = new ImageIcon("ShipExplosion.png");
+	private static Message lossMessage = new Message(new Point(300,300), new Rectangle(300, 300, 600, 600));
 
 	public Screen() {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setBackground(Color.black);
-
+		lossMessage.setText("You have lost");
 		// MAKES ARRAY LISTS HERE
 		alienObjects = new ArrayList<Alien>(); // aliens
 		bunkerObjects = new ArrayList<Bunker>();
@@ -138,23 +139,94 @@ public class Screen extends JPanel implements KeyListener {
 	}
 
 	public void collideObjects() {
-		for (Shot shots : multipleShots) {
-			if (shots.collide(mysteryShipPic) == true) {
-				System.out.println("ok step one");
-				mysteryShipPic.setSize(new Rectangle(0, 0, 0, 0));
-				mysteryShipPic.setLocation(new Point(-300, -300));
+		// Aliens hitting player
+		for (Shot shots : enemyShots){
+			if (shots.collide(laserCannon) == true){
+				shots.setLocation(new Point(-10, -10));
+				laserCannon.setImage(explodingPlayerShip.getImage());
+				if (displayLives.getLife() > 0){
+				displayLives.setLife(displayLives.getLife() - 1);
+				// set a waiting period here
+				laserCannon.setImage(laserCanon.getImage());
+				laserCannon.setLocation(new Point(500, 650));
+				if (displayLives.getLife() <= 0){
+					laserCannon.setLocation(new Point(-300, -300));
+				}
+				}
 			}
 		}
+		
+		// Player vs Mystery Ship
+		for (Shot shots : multipleShots) {
+			if (shots.collide(mysteryShipPic) == true) {
+				mysteryShipPic.setSize(new Rectangle(0, 0, 0, 0));
+				mysteryShipPic.setLocation(new Point(-300, -300));
+				displayScore.setScore(displayScore.getScore() + 100);
+				repaint();
+			}
+		}
+		
+		// Alien vs Bunker Ship
+		for (Alien alienShip: alienObjects){
+			for(Bunker bunkerObj: bunkerObjects){
+				if (alienShip.collide(bunkerObj) == true && bunkerObj.getHits() == 0) {
+					alienShip.setSize(new Rectangle(-10, -10, 0, 0));
+					bunkerObj.setImage(bunkerhit1.getImage());
+					repaint();
+					bunkerObj.setHits(bunkerObj.getHits() + 1);
+				}
+				if (alienShip.collide(bunkerObj) == true && bunkerObj.getHits() == 1) {
+					alienShip.setSize(new Rectangle(-10, -10, 0, 0));
+					bunkerObj.setImage(bunkerhit2.getImage());
+					repaint();
+					bunkerObj.setHits(bunkerObj.getHits() + 1);
+				}
+				if (alienShip.collide(bunkerObj) == true && bunkerObj.getHits() == 2) {
+					alienShip.setSize(new Rectangle(-10, -10, 0, 0));
+					bunkerObj.setImage(bunkerhit4.getImage());
+					repaint();
+					bunkerObj.setHits(bunkerObj.getHits() + 1);
+				}
+				if (alienShip.collide(bunkerObj) == true && bunkerObj.getHits() == 3) {
+					alienShip.setSize(new Rectangle(-10, -10, 0, 0));
+					bunkerObj.setImage(bunkerhit3.getImage());
+					repaint();
+					bunkerObj.setHits(bunkerObj.getHits() + 1);
+				}
+				if (alienShip.collide(bunkerObj) == true && bunkerObj.getHits() == 4) {
+					bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
+					repaint();
+				}
+			}
+		}
+		
+		// Alien Ship bodies vs player ship body
+		for (Alien alienShip: alienObjects){
+			if (alienShip.collide(laserCannon)){
+				laserCannon.setImage(explodingPlayerShip.getImage());
+				if (displayLives.getLife() > 0){
+				displayLives.setLife(displayLives.getLife() - 1);
+				// set a waiting period here
+				laserCannon.setImage(laserCanon.getImage());
+				laserCannon.setLocation(new Point(500, 650));
+				if (displayLives.getLife() <= 0){
+					laserCannon.setLocation(new Point(-300, -300));
+				}}
+			}
+		}
+		
+		// Alien vs Player Shots
 		for (Shot shotObj : multipleShots) {
 			for (Alien alienObj : alienObjects) {
 				if (shotObj.collide(alienObj) == true) {
 					alienObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
-					// alienObj.setLocation(new Point(-300, -300));
+					displayScore.setScore(displayScore.getScore() + 10);
 					repaint();
 				}
 			}
 		}
+		// Aliens vs Bunkers
 		for (Shot shotObj : enemyShots) { //check in screenobject.java  //ALIEN SHOT
 			for (Bunker bunkerObj : bunkerObjects) {
 				if (shotObj.collide(bunkerObj) == true) {
@@ -190,6 +262,7 @@ public class Screen extends JPanel implements KeyListener {
 				}
 			}
 		}
+		// Player vs Bunkers
 		for (Shot shotObj : multipleShots) { //check in screenobject.java   //PLAYER SHOT
 			for (Bunker bunkerObj : bunkerObjects) {
 				if (shotObj.collide(bunkerObj) == true && bunkerObj.getHits() == 0) {
@@ -262,7 +335,6 @@ public class Screen extends JPanel implements KeyListener {
 		public void actionPerformed(ActionEvent arg0) {
 			enemyShotSwitch = true;
 			Random rand = new Random();
-			System.out.println(alienObjects.size());
 			Alien shooterAlien = alienObjects.get(rand.nextInt(alienObjects
 					.size() - 1));
 			Point p = shooterAlien.getLocation();
@@ -373,6 +445,10 @@ public class Screen extends JPanel implements KeyListener {
 				shot.draw(g);
 				repaint();
 			}
+		}
+		if (displayLives.getLife() <= 0){
+			lossMessage.draw(g);
+			repaint();
 		}
 
 	}
