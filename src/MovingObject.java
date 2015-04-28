@@ -42,30 +42,6 @@ public class MovingObject extends ScreenObject {
 	}
 
 	/**
-	 * Draw the object by displaying the image.
-	 * 
-	 * @param Graphics
-	 *            g
-	 */
-	@Override
-	public void draw(Graphics g) {
-		Graphics2D movingThing = (Graphics2D) g;
-		movingThing.drawImage(image, location.x, location.y, size.width,
-				size.height, null);
-	}
-
-	/**
-	 * To move an object,adds its vector to its location.
-	 * 
-	 * @param object
-	 *            Passes in a object.
-	 */
-	public void move(MovingObject object) {
-		object.location.x += object.vector.getChangeX();
-		object.location.y += object.vector.getChangeY();
-	}
-
-	/**
 	 * Returns true if the objects collide.
 	 * 
 	 * @param o
@@ -83,12 +59,46 @@ public class MovingObject extends ScreenObject {
 	}
 
 	/**
+	 * Destruction of the image once it has collision.
+	 * 
+	 * @param sc
+	 *            ScreenObject
+	 */
+	public void destuct(ScreenObject sc) {
+		// TODO
+	}
+
+	/**
+	 * Draw the object by displaying the image.
+	 * 
+	 * @param Graphics
+	 *            g
+	 */
+	@Override
+	public void draw(Graphics g) {
+		Graphics2D movingThing = (Graphics2D) g;
+		movingThing.drawImage(image, location.x, location.y, size.width,
+				size.height, null);
+	}
+
+	/**
 	 * Retrieve the vector.
 	 * 
 	 * @return the vector
 	 */
 	public MyVector getVector() {
 		return vector;
+	}
+
+	/**
+	 * To move an object,adds its vector to its location.
+	 * 
+	 * @param object
+	 *            Passes in a object.
+	 */
+	public void move(MovingObject object) {
+		object.location.x += object.vector.getChangeX();
+		object.location.y += object.vector.getChangeY();
 	}
 
 	/**
@@ -99,15 +109,5 @@ public class MovingObject extends ScreenObject {
 	 */
 	public void setVector(MyVector v) {
 		vector = v;
-	}
-
-	/**
-	 * Destruction of the image once it has collision.
-	 * 
-	 * @param sc
-	 *            ScreenObject
-	 */
-	public void destuct(ScreenObject sc) {
-		// TODO
 	}
 }

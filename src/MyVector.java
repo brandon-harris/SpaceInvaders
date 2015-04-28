@@ -29,6 +29,15 @@ public class MyVector {
 	}
 
 	/**
+	 * Gets the changeY.
+	 * 
+	 * @return the changeY
+	 */
+	public int getChangeY() {
+		return changeY;
+	}
+
+	/**
 	 * Sets the changeX.
 	 * 
 	 * @param changeX
@@ -36,15 +45,6 @@ public class MyVector {
 	 */
 	public void setChangeX(int cX) {
 		changeX = cX;
-	}
-
-	/**
-	 * Gets the changeY.
-	 * 
-	 * @return the changeY
-	 */
-	public int getChangeY() {
-		return changeY;
 	}
 
 	/**

@@ -43,6 +43,14 @@ public abstract class ScreenObject {
 	}
 
 	/**
+	 * All subclasses must have code to describe how the object should be drawn.
+	 * 
+	 * @param g
+	 *            The graphics object
+	 */
+	abstract public void draw(Graphics g);
+
+	/**
 	 * Gets the location.
 	 * 
 	 * @return the location
@@ -52,32 +60,12 @@ public abstract class ScreenObject {
 	}
 
 	/**
-	 * Sets the location.
-	 * 
-	 * @param location
-	 *            the location to be set
-	 */
-	public void setLocation(Point location) {
-		this.location = location;
-	}
-
-	/**
 	 * Gets the size.
 	 * 
 	 * @return the size
 	 */
 	public Rectangle getSize() {
 		return size;
-	}
-
-	/**
-	 * Sets the size.
-	 * 
-	 * @param size
-	 *            the size to set
-	 */
-	public void setSize(Rectangle s) {
-		size = s;
 	}
 
 	/**
@@ -91,11 +79,23 @@ public abstract class ScreenObject {
 	}
 
 	/**
-	 * All subclasses must have code to describe how the object should be drawn.
+	 * Sets the location.
 	 * 
-	 * @param g
-	 *            The graphics object
+	 * @param location
+	 *            the location to be set
 	 */
-	abstract public void draw(Graphics g);
+	public void setLocation(Point location) {
+		this.location = location;
+	}
+
+	/**
+	 * Sets the size.
+	 * 
+	 * @param size
+	 *            the size to set
+	 */
+	public void setSize(Rectangle s) {
+		size = s;
+	}
 
 }

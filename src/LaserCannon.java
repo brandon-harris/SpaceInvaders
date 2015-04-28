@@ -43,6 +43,7 @@ public class LaserCannon extends ShootingObject {
 	 * @param g
 	 *            The graphics object
 	 */
+	@Override
 	public void draw(Graphics g) {
 		Graphics2D laserCanonDraw = (Graphics2D) g;
 		laserCanonDraw.drawImage(image, location.x, location.y, size.width,

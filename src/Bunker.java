@@ -13,9 +13,28 @@ import java.awt.Rectangle;
  *         bunker.
  */
 public class Bunker extends ScreenObject {
-	private int hits = 0;
 	final private static int BUNKER_DIMENSION_WIDTH = 88;
 	final private static int BUNKER_DIMENSION_HEIGHT = 64;
+
+	/**
+	 * Get the BunkerDimensionHeight.
+	 * 
+	 * @return BUNKER_DIMENSION_HEIGHT
+	 */
+	public static int getBunkerDimensionHeight() {
+		return BUNKER_DIMENSION_HEIGHT;
+	}
+
+	/**
+	 * Gets the BUnkerDimensionwidth
+	 * 
+	 * @return BUNKER_DIMENSION_WIDTH
+	 */
+	public static int getBunkerDimensionWidth() {
+		return BUNKER_DIMENSION_WIDTH;
+	}
+
+	private int hits = 0;
 
 	/**
 	 * Creates a bunker with a certain location, size and image. Has integer to
@@ -63,24 +82,6 @@ public class Bunker extends ScreenObject {
 	 */
 	public void setHits(int hits) {
 		this.hits = hits;
-	}
-
-	/**
-	 * Gets the BUnkerDimensionwidth
-	 * 
-	 * @return BUNKER_DIMENSION_WIDTH
-	 */
-	public static int getBunkerDimensionWidth() {
-		return BUNKER_DIMENSION_WIDTH;
-	}
-
-	/**
-	 * Get the BunkerDimensionHeight.
-	 * 
-	 * @return BUNKER_DIMENSION_HEIGHT
-	 */
-	public static int getBunkerDimensionHeight() {
-		return BUNKER_DIMENSION_HEIGHT;
 	}
 
 }

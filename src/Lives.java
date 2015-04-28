@@ -2,7 +2,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -40,14 +39,15 @@ public class Lives extends ScreenObject {
 	 */
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(new Font("OCR A Std", Font.PLAIN, 20));
+		g2.setFont(new Font(Messages.getString("Lives.0"), Font.PLAIN, 20)); //$NON-NLS-1$
 		g2.setColor(Color.WHITE);
-		if (numberOfLives == 0){
-			g2.drawString("RIP IN PEACE", location.x, location.y);
+		if (numberOfLives == 0) {
+			g2.drawString(Messages.getString("Lives.1"), location.x, location.y); //$NON-NLS-1$
+		} else {
+			g2.drawString(Messages.getString("Lives.2") + (numberOfLives - 1), //$NON-NLS-1$
+					location.x, location.y);
 		}
-		else{
-		g2.drawString("Lives Remaining: " + (numberOfLives - 1), location.x, location.y);
-	}}
+	}
 
 	/**
 	 * Gets the number of lives.

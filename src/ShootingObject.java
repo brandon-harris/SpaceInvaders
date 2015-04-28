@@ -42,6 +42,7 @@ public class ShootingObject extends MovingObject {
 	 * @param g
 	 *            The graphics object
 	 */
+	@Override
 	public void draw(Graphics g) {
 
 	}

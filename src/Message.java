@@ -13,7 +13,7 @@ import java.awt.Rectangle;
  *
  */
 public class Message extends ScreenObject {
-	private String messageText = "";
+	private String messageText = Messages.getString("Message.0"); //$NON-NLS-1$
 
 	public Message(Point l, Rectangle s) {
 		super(l, s);
@@ -41,7 +41,7 @@ public class Message extends ScreenObject {
 	 */
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(new Font("OCR A Std", Font.PLAIN, 96));
+		g2.setFont(new Font(Messages.getString("Message.1"), Font.PLAIN, 96)); //$NON-NLS-1$
 		g2.setColor(Color.ORANGE);
 		g2.drawString(messageText, location.x, location.y);
 	}

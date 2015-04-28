@@ -37,6 +37,7 @@ public class Alien extends ShootingObject {
 	 * @param Graphics
 	 *            g
 	 */
+	@Override
 	public void draw(Graphics g) {
 		Graphics2D movingThing = (Graphics2D) g;
 		movingThing.drawImage(image, location.x, location.y, size.width,

@@ -48,6 +48,7 @@ public class MysteryShip extends MovingObject {
 	 * @param Graphics
 	 *            g
 	 */
+	@Override
 	public void draw(Graphics g) {
 		Graphics2D mysterything = (Graphics2D) g;
 		mysterything.drawImage(image, location.x, location.y, size.width,

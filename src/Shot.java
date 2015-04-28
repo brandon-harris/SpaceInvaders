@@ -43,6 +43,7 @@ public class Shot extends MovingObject {
 	 * @param g
 	 *            The graphics object
 	 */
+	@Override
 	public void draw(Graphics g) {
 		Graphics2D shotDraw = (Graphics2D) g;
 		shotDraw.drawImage(image, location.x, location.y, size.width,

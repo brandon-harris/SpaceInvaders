@@ -8,20 +8,6 @@ import javax.swing.JFrame;
  */
 public class GameWindow extends JFrame {
 	/**
-	 * The window contains the game Screen.
-	 */
-	public GameWindow() {
-		setTitle("Space Invaders JAVA");// test
-		Screen screen = new Screen();
-		add(screen);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pack();
-		screen.setFocusable(true);
-		screen.requestFocusInWindow();
-		setVisible(true);
-	}
-
-	/**
 	 * Create the window.
 	 * 
 	 * @param args
@@ -29,5 +15,19 @@ public class GameWindow extends JFrame {
 	 */
 	public static void main(String[] args) {
 		GameWindow window = new GameWindow();
+	}
+
+	/**
+	 * The window contains the game Screen.
+	 */
+	public GameWindow() {
+		setTitle(Messages.getString("GameWindow.0"));// test //$NON-NLS-1$
+		Screen screen = new Screen();
+		add(screen);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pack();
+		screen.setFocusable(true);
+		screen.requestFocusInWindow();
+		setVisible(true);
 	}
 }
