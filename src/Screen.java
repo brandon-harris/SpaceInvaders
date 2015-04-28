@@ -1,3 +1,5 @@
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -5,13 +7,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import java.io.IOException;
+
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.awt.Point;
 import java.awt.Rectangle;
+
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+
 
 public class Screen extends JPanel implements KeyListener {
 	public static int screenWidth = 1024;
@@ -49,7 +59,7 @@ public class Screen extends JPanel implements KeyListener {
 	private javax.swing.Timer timer;
 	private javax.swing.Timer shotTimer;
 	private javax.swing.Timer enemyShotTimer;
-	private javax.swing.Timer mysterymovTimer;
+	//private javax.swing.Timer mysterymovTimer;
 	private javax.swing.Timer startMystery;
 	private javax.swing.Timer enemyShotTimerPartTwo;
 	private LaserCannon laserCannon;
@@ -63,8 +73,22 @@ public class Screen extends JPanel implements KeyListener {
 			"ShipExplosion.png");
 	private static Message lossMessage = new Message(new Point(300, 300),
 			new Rectangle(300, 300, 600, 600));
-
+	private static AudioClip pew = null;
+	private static AudioClip bg = null;
+	private static AudioClip genericShipExplosion = null;
+	private static AudioClip bunkerHit = null;
+	
 	public Screen() {
+		try {
+			pew = Applet.newAudioClip(new URL("file:C:\\Users\\Garrett\\GitRepos\\SpaceInvaders\\src\\pew.wav"));
+			bg = Applet.newAudioClip(new URL("file:C:\\Users\\Garrett\\GitRepos\\SpaceInvaders\\src\\bg.wav"));
+			genericShipExplosion = Applet.newAudioClip(new URL("file:C:\\Users\\Garrett\\GitRepos\\SpaceInvaders\\src\\ship_explodes.wav"));
+			bunkerHit = Applet.newAudioClip(new URL("file:C:\\Users\\Garrett\\GitRepos\\SpaceInvaders\\src\\bunker_hit.wav"));
+			bg.loop();
+      } catch (IOException e) {
+		e.printStackTrace();
+	}
+		
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setBackground(Color.black);
 		lossMessage.setText("You have lost");
@@ -148,16 +172,22 @@ public class Screen extends JPanel implements KeyListener {
 			if (shots.collide(laserCannon) == true) {
 				shots.setLocation(new Point(-10, -10));
 				laserCannon.setImage(explodingPlayerShip.getImage());
+				repaint();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				if (displayLives.getLife() > 0) {
 					displayLives.setLife(displayLives.getLife() - 1);
-					// set a waiting period here
-					laserCannon.setImage(laserCanon.getImage());
+
+					//laserCannon.setImage(laserCanon.getImage());
 					laserCannon.setLocation(new Point(200, 650));
 					if (displayLives.getLife() <= 0) {
 						laserCannon.setLocation(new Point(-300, -300));
 					}
 				}
-			}
+			break;}
 		}
 
 		// Player vs Mystery Ship
@@ -170,7 +200,7 @@ public class Screen extends JPanel implements KeyListener {
 			}
 		}
 
-		// Alien vs Bunker Ship
+		// Alien Ship body vs Bunker
 		for (Alien alienShip : alienObjects) {
 			for (Bunker bunkerObj : bunkerObjects) {
 				if (alienShip.collide(bunkerObj) == true
@@ -229,6 +259,9 @@ public class Screen extends JPanel implements KeyListener {
 		for (Shot shotObj : playerShots) {
 			for (Alien alienObj : alienObjects) {
 				if (shotObj.collide(alienObj) == true) {
+					if(genericShipExplosion != null){
+						genericShipExplosion.play();
+					}
 					alienObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setLocation(new Point(-10, -10));
@@ -244,13 +277,16 @@ public class Screen extends JPanel implements KeyListener {
 				}
 			}
 		}
-		// Aliens vs Bunkers
+		// Alien shots vs Bunkers
 		for (Shot shotObj : enemyShots) { // check in screenobject.java //ALIEN
 											// SHOT
 			for (Bunker bunkerObj : bunkerObjects) {
 				if (shotObj.collide(bunkerObj) == true) {
 					if (shotObj.collide(bunkerObj) == true
 							&& bunkerObj.getHits() == 0) {
+						if (bunkerHit != null){
+							bunkerHit.play();
+						}
 						shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 						bunkerObj.setImage(bunkerhit1.getImage());
 						repaint();
@@ -258,6 +294,9 @@ public class Screen extends JPanel implements KeyListener {
 					}
 					if (shotObj.collide(bunkerObj) == true
 							&& bunkerObj.getHits() == 1) {
+						if (bunkerHit != null){
+							bunkerHit.play();
+						}
 						shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 						bunkerObj.setImage(bunkerhit2.getImage());
 						repaint();
@@ -265,6 +304,9 @@ public class Screen extends JPanel implements KeyListener {
 					}
 					if (shotObj.collide(bunkerObj) == true
 							&& bunkerObj.getHits() == 2) {
+						if (bunkerHit != null){
+							bunkerHit.play();
+						}
 						shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 						bunkerObj.setImage(bunkerhit4.getImage());
 						repaint();
@@ -272,6 +314,9 @@ public class Screen extends JPanel implements KeyListener {
 					}
 					if (shotObj.collide(bunkerObj) == true
 							&& bunkerObj.getHits() == 3) {
+						if (bunkerHit != null){
+							bunkerHit.play();
+						}
 						shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 						bunkerObj.setImage(bunkerhit3.getImage());
 						repaint();
@@ -279,6 +324,9 @@ public class Screen extends JPanel implements KeyListener {
 					}
 					if (shotObj.collide(bunkerObj) == true
 							&& bunkerObj.getHits() == 4) {
+						if (bunkerHit != null){
+							bunkerHit.play();
+						}
 						bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
 						shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 						repaint();
@@ -286,12 +334,15 @@ public class Screen extends JPanel implements KeyListener {
 				}
 			}
 		}
-		// Player vs Bunkers
+		// Player shots vs Bunkers
 		for (Shot shotObj : playerShots) { // check in screenobject.java
 											// //PLAYER SHOT
 			for (Bunker bunkerObj : bunkerObjects) {
 				if (shotObj.collide(bunkerObj) == true
 						&& bunkerObj.getHits() == 0) {
+					if (bunkerHit != null){
+						bunkerHit.play();
+					}
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setLocation(new Point(-10, -10));
 					bunkerObj.setImage(bunkerhit1.getImage());
@@ -300,6 +351,9 @@ public class Screen extends JPanel implements KeyListener {
 				}
 				if (shotObj.collide(bunkerObj) == true
 						&& bunkerObj.getHits() == 1) {
+					if (bunkerHit != null){
+						bunkerHit.play();
+					}
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setLocation(new Point(-10, -10));
 					bunkerObj.setImage(bunkerhit2.getImage());
@@ -308,6 +362,9 @@ public class Screen extends JPanel implements KeyListener {
 				}
 				if (shotObj.collide(bunkerObj) == true
 						&& bunkerObj.getHits() == 2) {
+					if (bunkerHit != null){
+						bunkerHit.play();
+					}
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setLocation(new Point(-10, -10));
 					bunkerObj.setImage(bunkerhit4.getImage());
@@ -316,6 +373,9 @@ public class Screen extends JPanel implements KeyListener {
 				}
 				if (shotObj.collide(bunkerObj) == true
 						&& bunkerObj.getHits() == 3) {
+					if (bunkerHit != null){
+						bunkerHit.play();
+					}
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setLocation(new Point(-10, -10));
 					bunkerObj.setImage(bunkerhit3.getImage());
@@ -324,6 +384,9 @@ public class Screen extends JPanel implements KeyListener {
 				}
 				if (shotObj.collide(bunkerObj) == true
 						&& bunkerObj.getHits() == 4) {
+					if (bunkerHit != null){
+						bunkerHit.play();
+					}
 					bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setLocation(new Point(-10, -10));
@@ -375,24 +438,26 @@ public class Screen extends JPanel implements KeyListener {
 			while (shooterAlien.location.getX() < -10 && keepLooping == true) {
 				// doing this results in rand looping forever once all of the
 				// aliens are off the screen
-				// so let's add yet another fucking safeguard.
+				// so let's add yet another ------- safeguard.
 				keepLooping = false;
 				for (Alien shooter : alienObjects) {
 					if (shooter.location.getX() > 10) {
 						keepLooping = true;
 					}
 				}
-				// because hey, why write good code when you can add more garbage?
+				// because hey, why write good code when you can add more
+				// garbage?
 				shooterAlien = alienObjects.get(rand.nextInt(alienObjects
 						.size() - 1));
 			}
 			Point p = shooterAlien.getLocation();
 			Rectangle r = shooterAlien.getSize();
-			System.out.println(p);
-			System.out.println(r);
 			shot = new Shot(new Point(p.x + r.width / 2 - 5, p.y + 20),
-					new Rectangle(r.x, r.y + 10, 10, 15), shotPic.getImage());
+					new Rectangle(r.x, r.y + 10, 10, 15), shotPic.getImage());			
 			enemyShots.add(shot);
+			if (pew != null){
+	              pew.play();
+	              }
 			enemyShotTimerPartTwo.start();
 		}
 	}
@@ -539,6 +604,9 @@ public class Screen extends JPanel implements KeyListener {
 			// of the cannon does not change.
 			shot = new Shot(new Point(p.x + r.width / 2 - 3, p.y - 20),
 					new Rectangle(500, 650, 5, 15), laserCannonShot.getImage());
+			if (pew != null){
+	              pew.play();
+	              }
 			shotSwitch = true;
 			shotTimer.start();
 			playerShots.add(shot);
