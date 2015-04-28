@@ -7,21 +7,28 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 /**
- * Class that displays text on a screen. 
+ * Class that displays text on a screen.
+ * 
  * @author brandon250x
  *
  */
 public class Message extends ScreenObject {
 	private String messageText = "";
+
 	public Message(Point l, Rectangle s) {
 		super(l, s);
 		// TODO Auto-generated constructor stub
 	}
+
 	/**
 	 * Constructor for the class. Very useful.
-	 * @param l a point that the message will be set at.
-	 * @param s the rectangle size that the message must be set in.
-	 * @param i image that you can optionally add to the message rectangle.
+	 * 
+	 * @param l
+	 *            a point that the message will be set at.
+	 * @param s
+	 *            the rectangle size that the message must be set in.
+	 * @param i
+	 *            image that you can optionally add to the message rectangle.
 	 */
 	public Message(Point l, Rectangle s, Image i) {
 		super(l, s, i);
@@ -41,6 +48,7 @@ public class Message extends ScreenObject {
 
 	/**
 	 * Gets the message stored here.
+	 * 
 	 * @return messageText the message text.
 	 */
 	public String getText() {
@@ -49,9 +57,11 @@ public class Message extends ScreenObject {
 
 	/**
 	 * Sets the message text.
-	 * @param s the message to set.
+	 * 
+	 * @param s
+	 *            the message to set.
 	 */
 	public void setText(String s) {
 		messageText = s;
-	}      
+	}
 }

@@ -79,9 +79,12 @@ public abstract class ScreenObject {
 	public void setSize(Rectangle s) {
 		size = s;
 	}
+
 	/**
-	 *  sets the image.
-	 * @param i the image to set
+	 * sets the image.
+	 * 
+	 * @param i
+	 *            the image to set
 	 */
 	public void setImage(Image i) {
 		image = i;

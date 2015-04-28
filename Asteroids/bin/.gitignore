@@ -1,5 +1,13 @@
+/Asteroid.class
+/Enemy.class
 /Explosion.class
+/GameWindow.class
 /Level.class
+/MovingScreenObject.class
+/MyVector.class
 /Score.class
+/Screen$TimerListener.class
+/Screen.class
+/ScreenObject.class
+/Ship.class
 /Shot.class
-/.DS_Store
