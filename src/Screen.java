@@ -44,12 +44,12 @@ public class Screen extends JPanel implements KeyListener {
 	public static ImageIcon bunkerhit4 = new ImageIcon("bunkerhit4.png");
 	private ArrayList<Alien> alienObjects;
 	private ArrayList<Bunker> bunkerObjects;
-	private ArrayList<Shot> multipleShots;
+	private ArrayList<Shot> playerShots;
 	private ArrayList<Shot> enemyShots;
 	private javax.swing.Timer timer;
 	private javax.swing.Timer shotTimer;
 	private javax.swing.Timer enemyShotTimer;
-	// private javax.swing.Timer mysterymovTimer;
+	private javax.swing.Timer mysterymovTimer;
 	private javax.swing.Timer startMystery;
 	private javax.swing.Timer enemyShotTimerPartTwo;
 	private LaserCannon laserCannon;
@@ -68,11 +68,10 @@ public class Screen extends JPanel implements KeyListener {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		setBackground(Color.black);
 		lossMessage.setText("You have lost");
-		// MAKES ARRAY LISTS HERE
-		alienObjects = new ArrayList<Alien>(); // aliens
+		alienObjects = new ArrayList<Alien>();
 		bunkerObjects = new ArrayList<Bunker>();
-		multipleShots = new ArrayList<Shot>(); // laser cannon
-		enemyShots = new ArrayList<Shot>(); // alien shots
+		playerShots = new ArrayList<Shot>();
+		enemyShots = new ArrayList<Shot>();
 
 		// MAKE TIMERS HERE
 		timer = new Timer(500, new TimerListener());
@@ -140,6 +139,9 @@ public class Screen extends JPanel implements KeyListener {
 		addKeyListener(this);
 	}
 
+	// This method could really use a cleanup.
+	// Extract some of the behavior, maybe put it is the object classes?
+	// There are a lot of magic numbers and tons of repetition.
 	public void collideObjects() {
 		// Aliens hitting player
 		for (Shot shots : enemyShots) {
@@ -159,7 +161,7 @@ public class Screen extends JPanel implements KeyListener {
 		}
 
 		// Player vs Mystery Ship
-		for (Shot shots : multipleShots) {
+		for (Shot shots : playerShots) {
 			if (shots.collide(mysteryShipPic) == true) {
 				mysteryShipPic.setSize(new Rectangle(0, 0, 0, 0));
 				mysteryShipPic.setLocation(new Point(-300, -300));
@@ -224,14 +226,21 @@ public class Screen extends JPanel implements KeyListener {
 		}
 
 		// Alien vs Player Shots
-		for (Shot shotObj : multipleShots) {
+		for (Shot shotObj : playerShots) {
 			for (Alien alienObj : alienObjects) {
 				if (shotObj.collide(alienObj) == true) {
-					//alienObj.setLocation(new Point(-10, -10));
 					alienObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					shotObj.setLocation(new Point(-10, -10));
+					alienObj.setLocation(new Point(-1000, -10));
+					/*
+					 * What is happening is that when we throw the aliens off of
+					 * the screen they get caught up by our movement
+					 * initialization method. SEE LINE 450
+					 */
 					displayScore.setScore(displayScore.getScore() + 10);
 					repaint();
+
 				}
 			}
 		}
@@ -278,12 +287,13 @@ public class Screen extends JPanel implements KeyListener {
 			}
 		}
 		// Player vs Bunkers
-		for (Shot shotObj : multipleShots) { // check in screenobject.java
-												// //PLAYER SHOT
+		for (Shot shotObj : playerShots) { // check in screenobject.java
+											// //PLAYER SHOT
 			for (Bunker bunkerObj : bunkerObjects) {
 				if (shotObj.collide(bunkerObj) == true
 						&& bunkerObj.getHits() == 0) {
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					shotObj.setLocation(new Point(-10, -10));
 					bunkerObj.setImage(bunkerhit1.getImage());
 					repaint();
 					bunkerObj.setHits(bunkerObj.getHits() + 1);
@@ -291,6 +301,7 @@ public class Screen extends JPanel implements KeyListener {
 				if (shotObj.collide(bunkerObj) == true
 						&& bunkerObj.getHits() == 1) {
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					shotObj.setLocation(new Point(-10, -10));
 					bunkerObj.setImage(bunkerhit2.getImage());
 					repaint();
 					bunkerObj.setHits(bunkerObj.getHits() + 1);
@@ -298,6 +309,7 @@ public class Screen extends JPanel implements KeyListener {
 				if (shotObj.collide(bunkerObj) == true
 						&& bunkerObj.getHits() == 2) {
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					shotObj.setLocation(new Point(-10, -10));
 					bunkerObj.setImage(bunkerhit4.getImage());
 					repaint();
 					bunkerObj.setHits(bunkerObj.getHits() + 1);
@@ -305,6 +317,7 @@ public class Screen extends JPanel implements KeyListener {
 				if (shotObj.collide(bunkerObj) == true
 						&& bunkerObj.getHits() == 3) {
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					shotObj.setLocation(new Point(-10, -10));
 					bunkerObj.setImage(bunkerhit3.getImage());
 					repaint();
 					bunkerObj.setHits(bunkerObj.getHits() + 1);
@@ -313,6 +326,7 @@ public class Screen extends JPanel implements KeyListener {
 						&& bunkerObj.getHits() == 4) {
 					bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
 					shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+					shotObj.setLocation(new Point(-10, -10));
 					repaint();
 				}
 			}
@@ -350,35 +364,52 @@ public class Screen extends JPanel implements KeyListener {
 		}
 	}
 
-	// TODO RANDOM ALIEN LISTENER (always makes it through but does not show up
-	// on screen)
+	// RANDOM ALIEN SHOT LISTENER
 	private class EnemyShotTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			enemyShotSwitch = true;
 			Random rand = new Random();
 			Alien shooterAlien = alienObjects.get(rand.nextInt(alienObjects
 					.size() - 1));
+			boolean keepLooping = true;
+			while (shooterAlien.location.getX() < -10 && keepLooping == true) {
+				// doing this results in rand looping forever once all of the
+				// aliens are off the screen
+				// so let's add yet another fucking safeguard.
+				keepLooping = false;
+				for (Alien shooter : alienObjects) {
+					if (shooter.location.getX() > 10) {
+						keepLooping = true;
+					}
+				}
+				// because hey, why write good code when you can add more garbage?
+				shooterAlien = alienObjects.get(rand.nextInt(alienObjects
+						.size() - 1));
+			}
 			Point p = shooterAlien.getLocation();
 			Rectangle r = shooterAlien.getSize();
+			System.out.println(p);
+			System.out.println(r);
 			shot = new Shot(new Point(p.x + r.width / 2 - 5, p.y + 20),
-					new Rectangle(r.x, r.y + 10, 10, 15),
-					shotPic.getImage());
+					new Rectangle(r.x, r.y + 10, 10, 15), shotPic.getImage());
 			enemyShots.add(shot);
 			enemyShotTimerPartTwo.start();
 		}
 	}
 
+	// Alien shot timer listener
 	private class EnemyShotTimerListenerPartTwo implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			repaint();
-			for (Shot shot : enemyShots) {
-				shot.setVector(new MyVector(0, 5));
-				shot.move(shot);
-				if (shot.location.getY() > 780){
-					enemyShots.remove(shot);
+			for (int x = 0; x < enemyShots.size(); x++) {
+				enemyShots.get(x).setVector(new MyVector(0, 7));
+				enemyShots.get(x).move(enemyShots.get(x));
+				collideObjects();
+				if (enemyShots.get(x).location.getY() > 780) {
+					enemyShots.remove(x);
 				}
-				repaint();
 			}
+			repaint();
 		}
 	}
 
@@ -386,24 +417,23 @@ public class Screen extends JPanel implements KeyListener {
 	private class ShotTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			repaint();
-			for (int x = 0; x < multipleShots.size(); x++) {
-				multipleShots.get(x).setVector(new MyVector(0, -7));
-				multipleShots.get(x).move(multipleShots.get(x));
-				if (multipleShots.get(x).location.getY() < 10) {
-					multipleShots.remove(x);
+			for (int x = 0; x < playerShots.size(); x++) {
+				playerShots.get(x).setVector(new MyVector(0, -7));
+				playerShots.get(x).move(playerShots.get(x));
+				if (playerShots.get(x).location.getY() < 10) {
+					playerShots.remove(x);
 					repaint();
 				}
 			}
+			repaint();
 		}
 	}
 
 	// MOVES ALIENS/CONTROL DIRECTION
 	private class TimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			//boolean flag = false;
 			for (Alien obj : alienObjects) {
 				if (obj.location.getX() > 800) {
-					//flag = true;
 					for (Alien innerLoop : alienObjects) {
 						innerLoop.setVector(new MyVector(0, 10));
 					}
@@ -425,7 +455,14 @@ public class Screen extends JPanel implements KeyListener {
 			}
 			for (Alien obj : alienObjects) {
 
-				if (obj.location.getX() < 200) {
+				if (obj.location.getX() < 200 && obj.location.getX() > -15) {
+					/*
+					 * So we add an extra condition here... But this results in
+					 * the aliens that are left on the screen shooting less
+					 * Because the ones off of the screen are being triggered
+					 * for shots, too. So then we add a condition for shot
+					 * selection as well. SEE LINE 238
+					 */
 
 					for (Alien innerLoop : alienObjects) {
 						innerLoop.setVector(new MyVector(0, 10));
@@ -459,7 +496,7 @@ public class Screen extends JPanel implements KeyListener {
 		laserCannon.draw(g);
 		mysteryShipPic.draw(g);
 		if (shotSwitch == true) {
-			for (Shot shot : multipleShots) {
+			for (Shot shot : playerShots) {
 				shot.draw(g);
 				repaint();
 			}
@@ -496,12 +533,15 @@ public class Screen extends JPanel implements KeyListener {
 			break;
 		case KeyEvent.VK_SPACE: { // FIRE LASER CANNON
 			Point p = laserCannon.getLocation();
-			Rectangle r = laserCannon.getSize();
+			Rectangle r = laserCannon.getSize(); // This should not be called
+			// every time that the cannon is fired.
+			// It should be called once at most and then stored, as the size
+			// of the cannon does not change.
 			shot = new Shot(new Point(p.x + r.width / 2 - 3, p.y - 20),
 					new Rectangle(500, 650, 5, 15), laserCannonShot.getImage());
 			shotSwitch = true;
 			shotTimer.start();
-			multipleShots.add(shot);
+			playerShots.add(shot);
 			repaint();
 		}
 		}
