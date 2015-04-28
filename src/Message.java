@@ -17,7 +17,7 @@ public class Message extends ScreenObject {
 
 	public Message(Point l, Rectangle s) {
 		super(l, s);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**
@@ -32,7 +32,7 @@ public class Message extends ScreenObject {
 	 */
 	public Message(Point l, Rectangle s, Image i) {
 		super(l, s, i);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override

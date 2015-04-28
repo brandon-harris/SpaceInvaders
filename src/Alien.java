@@ -29,7 +29,6 @@ public class Alien extends ShootingObject {
 	public Alien(Point l, Rectangle s, int pv, Image i) {
 		super(l, s, i);
 		pointvalue = pv;
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
