@@ -42,8 +42,12 @@ public class Lives extends ScreenObject {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setFont(new Font("OCR A Std", Font.PLAIN, 20));
 		g2.setColor(Color.WHITE);
-		g2.drawString("Lives: " + numberOfLives, location.x, location.y);
-	}
+		if (numberOfLives == 0){
+			g2.drawString("RIP IN PEACE", location.x, location.y);
+		}
+		else{
+		g2.drawString("Lives Remaining: " + (numberOfLives - 1), location.x, location.y);
+	}}
 
 	/**
 	 * Gets the number of lives.

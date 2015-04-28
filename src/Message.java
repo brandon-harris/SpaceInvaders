@@ -41,8 +41,8 @@ public class Message extends ScreenObject {
 	 */
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(new Font("OCR A Std", Font.PLAIN, 60));
-		g2.setColor(Color.WHITE);
+		g2.setFont(new Font("OCR A Std", Font.PLAIN, 96));
+		g2.setColor(Color.ORANGE);
 		g2.drawString(messageText, location.x, location.y);
 	}
 
