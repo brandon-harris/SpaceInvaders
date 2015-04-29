@@ -367,37 +367,23 @@ public class Screen extends JPanel implements KeyListener {
 		// Alien Ship body vs Bunker
 		for (Alien alienShip : alienObjects) {
 			for (Bunker bunkerObj : bunkerObjects) {
-				if (alienShip.collide(bunkerObj) == true
-						&& bunkerObj.getHits() == 0) {
-					alienShip.setSize(new Rectangle(-10, -10, 0, 0));
+				if (alienShip.collide(bunkerObj) == true) {
+					if (bunkerObj.getHits() == 0){
 					bunkerObj.setImage(bunkerhit1.getImage());
-					repaint();
-					bunkerObj.setHits(bunkerObj.getHits() + 1);
-				}
-				if (alienShip.collide(bunkerObj) == true
-						&& bunkerObj.getHits() == 1) {
-					alienShip.setSize(new Rectangle(-10, -10, 0, 0));
+					}
+					else if (bunkerObj.getHits() == 1) {
 					bunkerObj.setImage(bunkerhit2.getImage());
-					repaint();
-					bunkerObj.setHits(bunkerObj.getHits() + 1);
-				}
-				if (alienShip.collide(bunkerObj) == true
-						&& bunkerObj.getHits() == 2) {
-					alienShip.setSize(new Rectangle(-10, -10, 0, 0));
+						}
+					else if (bunkerObj.getHits() == 2) {
+					bunkerObj.setImage(bunkerhit3.getImage());	
+					}
+					else if (bunkerObj.getHits() == 3) {
 					bunkerObj.setImage(bunkerhit4.getImage());
-					repaint();
+					}
+					else if (bunkerObj.getHits() == 4) {
+					bunkerObj.setImage(bunkerhit4.getImage());
+					}
 					bunkerObj.setHits(bunkerObj.getHits() + 1);
-				}
-				if (alienShip.collide(bunkerObj) == true
-						&& bunkerObj.getHits() == 3) {
-					alienShip.setSize(new Rectangle(-10, -10, 0, 0));
-					bunkerObj.setImage(bunkerhit3.getImage());
-					repaint();
-					bunkerObj.setHits(bunkerObj.getHits() + 1);
-				}
-				if (alienShip.collide(bunkerObj) == true
-						&& bunkerObj.getHits() == 4) {
-					bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
 					repaint();
 				}
 			}
@@ -449,8 +435,7 @@ public class Screen extends JPanel implements KeyListener {
 			}
 		}
 		// Alien shots vs Bunkers
-		for (Shot shotObj : enemyShots) { // check in screenobject.java //ALIEN
-											// SHOT
+		for (Shot shotObj : enemyShots) {
 			for (Bunker bunkerObj : bunkerObjects) {
 				if (shotObj.collide(bunkerObj) == true) {
 					if (shotObj.collide(bunkerObj) == true
