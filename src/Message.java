@@ -8,60 +8,55 @@ import java.awt.Rectangle;
 
 /**
  * Class that displays text on a screen.
- * 
- * @author brandon250x
  *
+ * @author brandon250x
  */
 public class Message extends ScreenObject {
-	private String messageText = Messages.getString("Message.0"); //$NON-NLS-1$
+    private String messageText = Messages.getString("Message.0"); //$NON-NLS-1$
 
-	public Message(Point l, Rectangle s) {
-		super(l, s);
+    public Message(Point l, Rectangle s) {
+        super(l, s);
 
-	}
+    }
 
-	/**
-	 * Constructor for the class. Very useful.
-	 * 
-	 * @param l
-	 *            a point that the message will be set at.
-	 * @param s
-	 *            the rectangle size that the message must be set in.
-	 * @param i
-	 *            image that you can optionally add to the message rectangle.
-	 */
-	public Message(Point l, Rectangle s, Image i) {
-		super(l, s, i);
+    /**
+     * Constructor for the class. Very useful.
+     *
+     * @param l a point that the message will be set at.
+     * @param s the rectangle size that the message must be set in.
+     * @param i image that you can optionally add to the message rectangle.
+     */
+    public Message(Point l, Rectangle s, Image i) {
+        super(l, s, i);
 
-	}
+    }
 
-	@Override
-	/**
-	 * Draws the component.
-	 */
-	public void draw(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(new Font(Messages.getString("Message.1"), Font.PLAIN, 96)); //$NON-NLS-1$
-		g2.setColor(Color.ORANGE);
-		g2.drawString(messageText, location.x, location.y);
-	}
+    @Override
+    /**
+     * Draws the component.
+     */
+    public void draw(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setFont(new Font(Messages.getString("Message.1"), Font.PLAIN, 96)); //$NON-NLS-1$
+        g2.setColor(Color.ORANGE);
+        g2.drawString(messageText, location.x, location.y);
+    }
 
-	/**
-	 * Gets the message stored here.
-	 * 
-	 * @return messageText the message text.
-	 */
-	public String getText() {
-		return messageText;
-	}
+    /**
+     * Gets the message stored here.
+     *
+     * @return messageText the message text.
+     */
+    public String getText() {
+        return messageText;
+    }
 
-	/**
-	 * Sets the message text.
-	 * 
-	 * @param s
-	 *            the message to set.
-	 */
-	public void setText(String s) {
-		messageText = s;
-	}
+    /**
+     * Sets the message text.
+     *
+     * @param s the message to set.
+     */
+    public void setText(String s) {
+        messageText = s;
+    }
 }

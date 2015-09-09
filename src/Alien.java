@@ -6,60 +6,52 @@ import java.awt.Rectangle;
 
 /**
  * A Alien can kill the LaserCannon by shooting it. It has a pointvalue.
- * 
- * @author Kennon
  *
+ * @author Kennon
  */
 public class Alien extends ShootingObject {
-	protected int pointvalue;
+    protected int pointvalue;
 
-	/**
-	 * Creates Alien that has a particular location,size, pointvalue, image.
-	 * 
-	 * @param l
-	 *            the location
-	 * @param s
-	 *            the size
-	 * @param pv
-	 *            the pointvalue
-	 * @param i
-	 *            the image
-	 * 
-	 */
-	public Alien(Point l, Rectangle s, int pv, Image i) {
-		super(l, s, i);
-		pointvalue = pv;
-	}
+    /**
+     * Creates Alien that has a particular location,size, pointvalue, image.
+     *
+     * @param l  the location
+     * @param s  the size
+     * @param pv the pointvalue
+     * @param i  the image
+     */
+    public Alien(Point l, Rectangle s, int pv, Image i) {
+        super(l, s, i);
+        pointvalue = pv;
+    }
 
-	/**
-	 * Draw the object by displaying the image.
-	 * 
-	 * @param Graphics
-	 *            g
-	 */
-	@Override
-	public void draw(Graphics g) {
-		Graphics2D movingThing = (Graphics2D) g;
-		movingThing.drawImage(image, location.x, location.y, size.width,
-				size.height, null);
-	}
+    /**
+     * Draw the object by displaying the image.
+     *
+     * @param g Graphics object
+     */
+    @Override
+    public void draw(Graphics g) {
+        Graphics2D movingThing = (Graphics2D) g;
+        movingThing.drawImage(image, location.x, location.y, size.width,
+                size.height, null);
+    }
 
-	/**
-	 * Gets the pointvalue.
-	 * 
-	 * @return the pointvalue
-	 */
-	public int getPointValue() {
-		return pointvalue;
-	}
+    /**
+     * Gets the pointvalue.
+     *
+     * @return the pointvalue
+     */
+    public int getPointValue() {
+        return pointvalue;
+    }
 
-	/**
-	 * Sets the pointvalue.
-	 * 
-	 * @param pointValue
-	 *            the pointValue to set
-	 */
-	public void setPointValue(int pointvalue) {
-		this.pointvalue = pointvalue;
-	}
+    /**
+     * Sets the pointValue.
+     *
+     * @param pointValue the pointValue to set
+     */
+    public void setPointValue(int pointValue) {
+        this.pointvalue = pointValue;
+    }
 }
