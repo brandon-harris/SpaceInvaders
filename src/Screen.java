@@ -38,8 +38,6 @@ public class Screen extends JPanel implements KeyListener {
                         keepLooping = true;
                     }
                 }
-                // because hey, why write good code when you can add more
-                // garbage?
                 shooterAlien = alienObjects.get(rand.nextInt(alienObjects
                         .size() - 1));
             }
@@ -419,8 +417,8 @@ public class Screen extends JPanel implements KeyListener {
                     shotObj.setSize(new Rectangle(-10, -10, 0, 0));
                     shotObj.setLocation(new Point(-10, -10));
                     alienObj.setLocation(new Point(-1000, -10));
-					/*
-					 * What is happening is that when we throw the aliens off of
+                    /*
+                     * What is happening is that when we throw the aliens off of
 					 * the screen they get caught up by our movement
 					 * initialization method. SEE LINE ---450--- 530
 					 */
@@ -490,56 +488,23 @@ public class Screen extends JPanel implements KeyListener {
         for (Shot shotObj : playerShots) { // check in screenobject.java
             // //PLAYER SHOT
             for (Bunker bunkerObj : bunkerObjects) {
-                if (shotObj.collide(bunkerObj)
-                        && bunkerObj.getHits() == 0) {
-                    if (bunkerHit != null) {
-                        bunkerHit.play();
-                    }
-                    shotObj.setSize(new Rectangle(-10, -10, 0, 0));
-                    shotObj.setLocation(new Point(-10, -10));
-                    bunkerObj.setImage(bunkerhit1.getImage());
-                    repaint();
-                    bunkerObj.setHits(bunkerObj.getHits() + 1);
+                if (shotObj.collide(bunkerObj)) {
+                    switch (bunkerObj.getHits()) {
+                        case 0:
+                            bunkerObj.setImage(bunkerhit1.getImage());
+                        case 1:
+                            bunkerObj.setImage(bunkerhit2.getImage());
+                        case 2:
+                            bunkerObj.setImage(bunkerhit3.getImage());
+                        case 3:
+                            bunkerObj.setImage(bunkerhit4.getImage());
+                        case 4:
+                            bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
                 }
-                if (shotObj.collide(bunkerObj)
-                        && bunkerObj.getHits() == 1) {
                     if (bunkerHit != null) {
                         bunkerHit.play();
-                    }
-                    shotObj.setSize(new Rectangle(-10, -10, 0, 0));
-                    shotObj.setLocation(new Point(-10, -10));
-                    bunkerObj.setImage(bunkerhit2.getImage());
-                    repaint();
-                    bunkerObj.setHits(bunkerObj.getHits() + 1);
                 }
-                if (shotObj.collide(bunkerObj)
-                        && bunkerObj.getHits() == 2) {
-                    if (bunkerHit != null) {
-                        bunkerHit.play();
-                    }
-                    shotObj.setSize(new Rectangle(-10, -10, 0, 0));
-                    shotObj.setLocation(new Point(-10, -10));
-                    bunkerObj.setImage(bunkerhit4.getImage());
-                    repaint();
                     bunkerObj.setHits(bunkerObj.getHits() + 1);
-                }
-                if (shotObj.collide(bunkerObj)
-                        && bunkerObj.getHits() == 3) {
-                    if (bunkerHit != null) {
-                        bunkerHit.play();
-                    }
-                    shotObj.setSize(new Rectangle(-10, -10, 0, 0));
-                    shotObj.setLocation(new Point(-10, -10));
-                    bunkerObj.setImage(bunkerhit3.getImage());
-                    repaint();
-                    bunkerObj.setHits(bunkerObj.getHits() + 1);
-                }
-                if (shotObj.collide(bunkerObj)
-                        && bunkerObj.getHits() == 4) {
-                    if (bunkerHit != null) {
-                        bunkerHit.play();
-                    }
-                    bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
                     shotObj.setSize(new Rectangle(-10, -10, 0, 0));
                     shotObj.setLocation(new Point(-10, -10));
                     repaint();
@@ -605,8 +570,8 @@ public class Screen extends JPanel implements KeyListener {
         screenWidth = this.getWidth();
         screenHeight = this.getHeight();
         super.paintComponent(g);
-        displayScore.draw(g);
         displayLives.draw(g);
+        displayScore.draw(g);
         for (ScreenObject obj : alienObjects) {
             obj.draw(g);
         }
