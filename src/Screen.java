@@ -366,17 +366,26 @@ public class Screen extends JPanel implements KeyListener {
         for (Alien alienShip : alienObjects) {
             for (Bunker bunkerObj : bunkerObjects) {
                 if (alienShip.collide(bunkerObj)) {
-                    if (bunkerObj.getHits() == 0) {
-                        bunkerObj.setImage(bunkerhit1.getImage());
-                    } else if (bunkerObj.getHits() == 1) {
-                        bunkerObj.setImage(bunkerhit2.getImage());
-                    } else if (bunkerObj.getHits() == 2) {
-                        bunkerObj.setImage(bunkerhit3.getImage());
-                    } else if (bunkerObj.getHits() == 3) {
-                        bunkerObj.setImage(bunkerhit4.getImage());
-                    } else if (bunkerObj.getHits() == 4) {
-                        bunkerObj.setImage(bunkerhit4.getImage());
+                    int bunkerObjHits = bunkerObj.getHits();
+                    switch (bunkerObjHits) {
+                        case 0:
+                            bunkerObj.setImage(bunkerhit1.getImage());
+                            break;
+                        case 1:
+                            bunkerObj.setImage(bunkerhit2.getImage());
+                            break;
+                        case 2:
+                            bunkerObj.setImage(bunkerhit3.getImage());
+                            break;
+                        case 3:
+                            bunkerObj.setImage(bunkerhit4.getImage());
+                            break;
+                        case 4:
+                            bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
+                            break;
                     }
+                    alienShip.setSize(new Rectangle(-10, -10, 0, 0));
+                    alienShip.setLocation(new Point(-1000, -10));
                     bunkerObj.setHits(bunkerObj.getHits() + 1);
                     repaint();
                 }
@@ -486,20 +495,25 @@ public class Screen extends JPanel implements KeyListener {
         }
         // Player shots vs Bunkers
         for (Shot shotObj : playerShots) { // check in screenobject.java
-            // //PLAYER SHOT
             for (Bunker bunkerObj : bunkerObjects) {
                 if (shotObj.collide(bunkerObj)) {
-                    switch (bunkerObj.getHits()) {
+                    int bunkerHits = bunkerObj.getHits();
+                    switch (bunkerHits) {
                         case 0:
                             bunkerObj.setImage(bunkerhit1.getImage());
+                            break;
                         case 1:
                             bunkerObj.setImage(bunkerhit2.getImage());
+                            break;
                         case 2:
                             bunkerObj.setImage(bunkerhit3.getImage());
+                            break;
                         case 3:
                             bunkerObj.setImage(bunkerhit4.getImage());
+                            break;
                         case 4:
                             bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
+                            break;
                 }
                     if (bunkerHit != null) {
                         bunkerHit.play();
