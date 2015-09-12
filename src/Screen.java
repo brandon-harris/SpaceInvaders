@@ -328,6 +328,7 @@ public class Screen extends JPanel implements KeyListener {
     // Extract some of the behavior, maybe put it is the object classes?
     // There are a lot of magic numbers and tons of repetition.
     public void collideObjects() {
+
         // Aliens hitting player
         for (Shot shots : enemyShots) {
             if (shots.collide(laserCannon)) {
@@ -441,58 +442,28 @@ public class Screen extends JPanel implements KeyListener {
         for (Shot shotObj : enemyShots) {
             for (Bunker bunkerObj : bunkerObjects) {
                 if (shotObj.collide(bunkerObj)) {
-                    if (shotObj.collide(bunkerObj)
-                            && bunkerObj.getHits() == 0) {
-                        if (bunkerHit != null) {
-                            bunkerHit.play();
-                        }
-                        shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+                    int bunkerHits = bunkerObj.getHits();
+                    if (bunkerHits == 0) {
                         bunkerObj.setImage(bunkerhit1.getImage());
-                        repaint();
-                        bunkerObj.setHits(bunkerObj.getHits() + 1);
-                    }
-                    if (shotObj.collide(bunkerObj)
-                            && bunkerObj.getHits() == 1) {
-                        if (bunkerHit != null) {
-                            bunkerHit.play();
-                        }
-                        shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+                    } else if (bunkerHits == 1) {
                         bunkerObj.setImage(bunkerhit2.getImage());
-                        repaint();
-                        bunkerObj.setHits(bunkerObj.getHits() + 1);
-                    }
-                    if (shotObj.collide(bunkerObj)
-                            && bunkerObj.getHits() == 2) {
-                        if (bunkerHit != null) {
-                            bunkerHit.play();
-                        }
-                        shotObj.setSize(new Rectangle(-10, -10, 0, 0));
-                        bunkerObj.setImage(bunkerhit4.getImage());
-                        repaint();
-                        bunkerObj.setHits(bunkerObj.getHits() + 1);
-                    }
-                    if (shotObj.collide(bunkerObj)
-                            && bunkerObj.getHits() == 3) {
-                        if (bunkerHit != null) {
-                            bunkerHit.play();
-                        }
-                        shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+                    } else if (bunkerHits == 2) {
                         bunkerObj.setImage(bunkerhit3.getImage());
-                        repaint();
-                        bunkerObj.setHits(bunkerObj.getHits() + 1);
-                    }
-                    if (shotObj.collide(bunkerObj)
-                            && bunkerObj.getHits() == 4) {
-                        if (bunkerHit != null) {
-                            bunkerHit.play();
-                        }
+                    } else if (bunkerHits == 3) {
+                        bunkerObj.setImage(bunkerhit4.getImage());
+                    } else if (bunkerHits == 4) {
                         bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
-                        shotObj.setSize(new Rectangle(-10, -10, 0, 0));
-                        repaint();
                     }
+                    if (bunkerHit != null) {
+                        bunkerHit.play();
+                    }
+                    shotObj.setSize(new Rectangle(-10, -10, 0, 0));
+                    shotObj.setLocation(new Point(-10, -10));
+                    bunkerObj.setHits(bunkerHits + 1);
                 }
             }
         }
+
         // Player shots vs Bunkers
         for (Shot shotObj : playerShots) { // check in screenobject.java
             for (Bunker bunkerObj : bunkerObjects) {
@@ -514,7 +485,7 @@ public class Screen extends JPanel implements KeyListener {
                         case 4:
                             bunkerObj.setSize(new Rectangle(-10, -10, 0, 0));
                             break;
-                }
+                    }
                     if (bunkerHit != null) {
                         bunkerHit.play();
                 }

@@ -5,24 +5,24 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 /**
- * A Alien can kill the LaserCannon by shooting it. It has a pointvalue.
+ * An Alien can kill the LaserCannon by shooting it. It has a point value.
  *
  * @author Kennon
  */
 public class Alien extends ShootingObject {
-    protected int pointvalue;
+    protected int pointValue;
 
     /**
-     * Creates Alien that has a particular location,size, pointvalue, image.
+     * Creates Alien that has a particular location,size, pointValue, image.
      *
      * @param l  the location
      * @param s  the size
-     * @param pv the pointvalue
+     * @param pv the pointValue
      * @param i  the image
      */
     public Alien(Point l, Rectangle s, int pv, Image i) {
         super(l, s, i);
-        pointvalue = pv;
+        pointValue = pv;
     }
 
     /**
@@ -38,12 +38,12 @@ public class Alien extends ShootingObject {
     }
 
     /**
-     * Gets the pointvalue.
+     * Gets the pointValue.
      *
-     * @return the pointvalue
+     * @return the pointValue
      */
     public int getPointValue() {
-        return pointvalue;
+        return pointValue;
     }
 
     /**
@@ -52,6 +52,6 @@ public class Alien extends ShootingObject {
      * @param pointValue the pointValue to set
      */
     public void setPointValue(int pointValue) {
-        this.pointvalue = pointValue;
+        this.pointValue = pointValue;
     }
 }
